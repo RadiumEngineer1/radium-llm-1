@@ -1,0 +1,632 @@
+# FORGE — Local LLM Interface
+## Production Plan for Claude Code
+
+---
+
+## Overview
+
+Build a local web application called **FORGE** — a production-grade chat interface for Ollama with streaming, multi-model switching, and a full RAG pipeline. The user has an RTX 4090 with 24GB VRAM and Ollama installed locally.
+
+**Goal:** A fast, beautiful, fully local app that talks to Ollama at `http://localhost:11434`. No cloud, no auth, no database — just a clean local tool.
+
+---
+
+## Tech Stack
+
+| Layer | Choice | Reason |
+|---|---|---|
+| Framework | **Vite + React 18** | Fast dev server, HMR, small bundle |
+| Language | **TypeScript** | Type safety for the RAG vector ops and API layer |
+| Styling | **Tailwind CSS v3** | Utility-first, no runtime overhead |
+| State | **Zustand** | Lightweight, no boilerplate |
+| Markdown | **react-markdown + remark-gfm + rehype-highlight** | Full GFM, syntax highlighting |
+| Syntax highlight | **highlight.js** | Works well with rehype-highlight |
+| Icons | **lucide-react** | Clean, consistent |
+| File parsing | Native browser FileReader + custom chunker | No deps needed |
+| Vector math | Pure TypeScript (cosine similarity) | Vectors are float arrays, no lib needed |
+| HTTP | Native `fetch` with ReadableStream | For Ollama streaming |
+
+**No backend needed.** Everything runs in the browser against localhost:11434.
+
+---
+
+## Project Setup
+
+```bash
+npm create vite@latest forge -- --template react-ts
+cd forge
+npm install
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+npm install zustand react-markdown remark-gfm rehype-highlight highlight.js lucide-react
+```
+
+### `tailwind.config.js`
+```js
+export default {
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  theme: {
+    extend: {
+      fontFamily: {
+        ui:   ['Rajdhani', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+        body: ['DM Sans', 'sans-serif'],
+      },
+      colors: {
+        bg:       '#07070c',
+        surface:  '#0e0e18',
+        surface2: '#14141f',
+        surface3: '#1a1a28',
+        border:   '#1e1e30',
+        accent:   '#ff6b2b',
+        accent2:  '#ffd60a',
+        muted:    '#4e4e66',
+        danger:   '#ff4466',
+        success:  '#00e5a0',
+      },
+    },
+  },
+  plugins: [],
+}
+```
+
+### `index.html` — add Google Fonts in `<head>`
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+```
+
+---
+
+## Project Structure
+
+```
+forge/
+├── src/
+│   ├── main.tsx
+│   ├── App.tsx
+│   ├── index.css               # Tailwind base + custom globals
+│   │
+│   ├── store/
+│   │   ├── chatStore.ts        # Messages, history, generating state
+│   │   ├── modelStore.ts       # Available models, selected model/embed model
+│   │   ├── ragStore.ts         # Uploaded docs, chunks, embeddings
+│   │   └── settingsStore.ts    # Temperature, top_p, max_tokens, topK, system prompt
+│   │
+│   ├── lib/
+│   │   ├── ollama.ts           # All Ollama API calls
+│   │   ├── rag.ts              # Chunking, embedding orchestration, vector search
+│   │   └── utils.ts            # Cosine similarity, file reading, misc helpers
+│   │
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── Sidebar.tsx
+│   │   │   └── MainPanel.tsx
+│   │   │
+│   │   ├── sidebar/
+│   │   │   ├── ModelSelector.tsx
+│   │   │   ├── EmbedModelSelector.tsx
+│   │   │   ├── GenerationParams.tsx
+│   │   │   ├── RagSection.tsx
+│   │   │   ├── Dropzone.tsx
+│   │   │   ├── DocList.tsx
+│   │   │   ├── SystemPrompt.tsx
+│   │   │   └── StatusBar.tsx
+│   │   │
+│   │   ├── chat/
+│   │   │   ├── ChatHeader.tsx
+│   │   │   ├── MessageList.tsx
+│   │   │   ├── MessageBubble.tsx
+│   │   │   ├── RagSources.tsx
+│   │   │   ├── EmptyState.tsx
+│   │   │   ├── LoadingDots.tsx
+│   │   │   └── InputArea.tsx
+│   │   │
+│   │   └── ui/
+│   │       ├── Slider.tsx
+│   │       ├── Toggle.tsx
+│   │       ├── IconButton.tsx
+│   │       ├── Toast.tsx
+│   │       └── Select.tsx
+│   │
+│   └── types/
+│       └── index.ts            # All shared TypeScript types
+│
+├── public/
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+└── tailwind.config.js
+```
+
+---
+
+## Types (`src/types/index.ts`)
+
+```ts
+export interface OllamaModel {
+  name: string;
+  size: number;
+  digest: string;
+  modified_at: string;
+  details?: {
+    family: string;
+    parameter_size: string;
+    quantization_level: string;
+  };
+}
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  ragSources?: RagChunk[];
+  timestamp: number;
+}
+
+export interface EmbeddedChunk {
+  text: string;
+  embedding: number[];
+  source: string;   // filename
+  index: number;    // chunk index within doc
+}
+
+export interface RagDoc {
+  id: string;
+  name: string;
+  size: number;
+  chunks: EmbeddedChunk[];
+  addedAt: number;
+}
+
+export interface RagChunk extends EmbeddedChunk {
+  score: number;
+}
+
+export interface GenerationParams {
+  temperature: number;   // 0–2, default 0.7
+  top_p: number;         // 0.1–1, default 0.9
+  num_predict: number;   // 256–8192, default 2048
+  top_k: number;         // 1–10, default 4 (RAG retrieval k, not generation top_k)
+  repeat_penalty: number; // 1.0–1.5, default 1.1
+}
+
+export type OllamaStatus = 'connecting' | 'online' | 'offline' | 'busy';
+```
+
+---
+
+## Ollama API Layer (`src/lib/ollama.ts`)
+
+Implement these functions:
+
+### `fetchModels(): Promise<OllamaModel[]>`
+- `GET http://localhost:11434/api/tags`
+- Returns `data.models` sorted by name
+- Throw with user-friendly message if offline
+
+### `streamChat(params): AsyncGenerator<string>`
+- `POST http://localhost:11434/api/chat`
+- Body:
+  ```ts
+  {
+    model: string,
+    messages: {role, content}[],
+    stream: true,
+    options: {
+      temperature, top_p, num_predict, repeat_penalty
+    }
+  }
+  ```
+- Read `response.body` as a `ReadableStream`
+- Each newline-delimited JSON chunk: parse and yield `data.message.content`
+- When `data.done === true`, stop
+- Handle abort via `AbortController` — expose a cancel function
+
+### `getEmbedding(text: string, model: string): Promise<number[]>`
+- `POST http://localhost:11434/api/embeddings`
+- Body: `{ model, prompt: text }`
+- Returns `data.embedding`
+
+### `checkHealth(): Promise<boolean>`
+- `GET http://localhost:11434/` — returns true if reachable
+
+---
+
+## RAG Pipeline (`src/lib/rag.ts`)
+
+### Chunking: `chunkText(text: string): string[]`
+Strategy (in order of preference):
+1. Split on double newlines into paragraphs
+2. If paragraph count > 3, use **paragraph-based chunking** with merging:
+   - Target chunk size: **600 chars**
+   - Overlap: last **80 chars** of previous chunk prepended to next
+   - Never split mid-sentence if avoidable
+3. Fallback: **character-based** sliding window (size=600, overlap=80)
+4. Filter out chunks < 30 chars
+
+### Embedding: `embedDoc(doc: File, model: string, onProgress): Promise<RagDoc>`
+- Read file as text
+- Chunk it
+- For each chunk, call `ollama.getEmbedding(chunk, model)`
+- Call `onProgress(current, total)` after each embedding
+- Return assembled `RagDoc`
+- **Process one embedding at a time** (sequential, not parallel) to not overwhelm Ollama
+
+### Vector Search: `searchDocs(query: string, docs: RagDoc[], model: string, topK: number): Promise<RagChunk[]>`
+- Embed the query with `getEmbedding`
+- Compute cosine similarity against all chunks across all docs
+- Return top-K chunks sorted by score descending
+
+### Cosine Similarity (`src/lib/utils.ts`): `cosineSim(a: number[], b: number[]): number`
+```ts
+export function cosineSim(a: number[], b: number[]): number {
+  let dot = 0, na = 0, nb = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    na  += a[i] * a[i];
+    nb  += b[i] * b[i];
+  }
+  return dot / (Math.sqrt(na) * Math.sqrt(nb) + 1e-10);
+}
+```
+
+---
+
+## Zustand Stores
+
+### `modelStore.ts`
+```ts
+interface ModelStore {
+  models: OllamaModel[];
+  selectedModel: string;
+  embedModel: string;        // '' means same as selectedModel
+  status: OllamaStatus;
+  statusText: string;
+  loadModels: () => Promise<void>;
+  setSelectedModel: (name: string) => void;
+  setEmbedModel: (name: string) => void;
+}
+```
+
+- `loadModels` fetches models, auto-selects first model, auto-prefers `nomic-embed-text` or `mxbai-embed-large` for embedModel if present
+- `getActiveEmbedModel()` helper: returns `embedModel || selectedModel`
+
+### `chatStore.ts`
+```ts
+interface ChatStore {
+  messages: ChatMessage[];
+  isGenerating: boolean;
+  abortController: AbortController | null;
+  addMessage: (msg: Omit<ChatMessage, 'id' | 'timestamp'>) => ChatMessage;
+  updateLastAssistantMessage: (content: string) => void;
+  clearChat: () => void;
+  setGenerating: (v: boolean, abort?: AbortController) => void;
+  cancelGeneration: () => void;
+}
+```
+
+- Messages stored as array, IDs are `crypto.randomUUID()`
+- `updateLastAssistantMessage` finds the last assistant message and updates its content (used during streaming)
+- `cancelGeneration` calls `abortController.abort()`
+
+### `ragStore.ts`
+```ts
+interface RagStore {
+  docs: RagDoc[];
+  enabled: boolean;
+  addDoc: (doc: RagDoc) => void;
+  removeDoc: (id: string) => void;
+  toggleEnabled: () => void;
+  clearDocs: () => void;
+}
+```
+
+### `settingsStore.ts`
+```ts
+interface SettingsStore {
+  params: GenerationParams;
+  systemPrompt: string;
+  updateParam: <K extends keyof GenerationParams>(key: K, value: GenerationParams[K]) => void;
+  setSystemPrompt: (v: string) => void;
+}
+
+// defaults
+const defaultParams: GenerationParams = {
+  temperature:    0.7,
+  top_p:          0.9,
+  num_predict:    2048,
+  top_k:          4,
+  repeat_penalty: 1.1,
+};
+
+const defaultSystemPrompt = `You are a helpful, direct, and knowledgeable assistant. Answer clearly and concisely. When using retrieved context, cite the source.`;
+```
+
+**Persist settings** to `localStorage` using Zustand's `persist` middleware (settings and system prompt only — not messages or docs, those are session-only).
+
+---
+
+## Core Send Flow (`src/components/chat/InputArea.tsx` or a `useSendMessage` hook)
+
+```
+1.  Get userText from input, validate non-empty + model selected
+2.  Add user ChatMessage to store
+3.  If RAG enabled and docs.length > 0:
+      a. Call ragStore.searchDocs(userText, docs, embedModel, topK)
+      b. Build context string from top-K chunks
+      c. Append to system prompt as "## Retrieved Context\n..."
+      d. Store ragChunks for attaching to the assistant message
+4.  Build messages array:
+      [{role:'system', content: systemPrompt + ragContext}, ...history, {role:'user', content: userText}]
+      Trim history to last 20 pairs (40 messages) to keep context manageable
+5.  Create AbortController, call chatStore.setGenerating(true, controller)
+6.  Add empty assistant ChatMessage to store (for streaming into)
+7.  For each chunk from ollama.streamChat():
+      a. Append to fullText
+      b. Call chatStore.updateLastAssistantMessage(fullText)
+8.  On done: attach ragChunks to the assistant message
+9.  Finally: chatStore.setGenerating(false)
+```
+
+---
+
+## Component Specs
+
+### `Sidebar.tsx`
+- Fixed 290px width, `bg-surface`, `border-r border-border`
+- Contains: brand header, scrollable section, status bar at bottom
+- Brand: "FORGE" in Rajdhani 700, accent color, letter-spacing, subtitle "RTX 4090 · LOCAL LLM · RAG"
+
+### `ModelSelector.tsx`
+- `<select>` showing all model names from `modelStore`
+- Refresh button (↺) next to it
+- Show model detail on hover: param size, quantization (from `OllamaModel.details`)
+
+### `EmbedModelSelector.tsx`
+- Same select but with a "— same as chat —" first option
+- Below it, show a tip: `ollama pull nomic-embed-text` if no dedicated embed model is detected
+
+### `GenerationParams.tsx`
+- Four sliders: Temperature (0–2), Top P (0.1–1), Max Tokens (256–8192, step 256), RAG Top-K (1–10)
+- Plus: Repeat Penalty (1.0–1.5, step 0.05)
+- Each shows live value to the right in accent color, monospace font
+
+### `Slider.tsx` (reusable)
+```tsx
+interface SliderProps {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  onChange: (v: number) => void;
+  formatValue?: (v: number) => string;
+}
+```
+- Custom styled range input
+- Label left, value right
+- Accent-colored thumb with glow
+
+### `RagSection.tsx`
+- Toggle to enable/disable RAG
+- `<Dropzone>` component
+- `<DocList>` component
+
+### `Dropzone.tsx`
+- Drag-over state changes border to accent color
+- Accepts: `.txt .md .json .csv .log .py .js .ts .html .xml .yaml .toml`
+- On file drop/select: call `embedDoc` for each file
+- Show per-file progress during embedding (X/N chunks embedded)
+- Multiple files can be processed simultaneously (use `Promise.all` at file level, but sequential within each file)
+
+### `DocList.tsx`
+- Each doc: filename (truncated), chunk count, delete button
+- Animate in on add (`framer-motion` optional, or CSS `@keyframes slideIn`)
+- During embedding: show pulsing progress instead of chunk count
+
+### `MessageBubble.tsx`
+- User messages: right-aligned, accent background
+- Assistant messages: left-aligned, surface2 background, border
+- Assistant content rendered with `react-markdown` + `remark-gfm` + `rehype-highlight`
+- Streaming state: show blinking cursor after content
+- Copy button on hover (copies raw markdown text)
+- Show token count or char count in small text below (optional)
+
+### `RagSources.tsx`
+- Collapsible accordion below assistant message
+- Header: "🔍 N RETRIEVED CHUNKS" + expand arrow
+- Each chunk: source filename, similarity score, first ~300 chars of text
+- Left border in accent color
+
+### `EmptyState.tsx`
+- Centered, subtle, non-distracting
+- Logo, title, 3 tip cards explaining usage
+
+### `InputArea.tsx`
+- Auto-resizing textarea (min 48px, max 200px)
+- Enter to send, Shift+Enter for newline
+- Send button (disabled while generating)
+- Cancel button appears while generating (calls `cancelGeneration`)
+- RAG badge showing active doc count
+
+### `ChatHeader.tsx`
+- Shows active model name
+- Clear chat button
+- Export chat button (exports as markdown file)
+- Optional: token context usage indicator
+
+### `Toast.tsx`
+- Fixed bottom-right
+- Slide up animation
+- Types: default / success / error
+- Auto-dismiss after 3.5s
+- Use a simple context or a zustand toast store
+
+---
+
+## Styling Notes
+
+**CSS Variables in `src/index.css`:**
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #07070c;
+    color: #dddde8;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* Ambient glow background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 900px 700px at 10% 35%, rgba(255, 107, 43, 0.045) 0%, transparent 65%),
+      radial-gradient(ellipse 600px 500px at 90% 75%, rgba(255, 214, 10, 0.02) 0%, transparent 60%);
+    animation: bgBreath 14s ease-in-out infinite alternate;
+  }
+
+  @keyframes bgBreath {
+    from { opacity: 0.5; }
+    to   { opacity: 1; }
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #1e1e30; border-radius: 2px; }
+
+  /* highlight.js theme — override to match dark palette */
+  .hljs { background: rgba(0,0,0,0.4) !important; }
+}
+```
+
+**Custom range input styles** — Tailwind doesn't style range inputs. Add in `index.css`:
+```css
+input[type="range"] { -webkit-appearance: none; height: 2px; background: #1e1e30; border-radius: 1px; }
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px; height: 13px;
+  background: #ff6b2b;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 107, 43, 0.5);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+```
+
+---
+
+## Vite Config (`vite.config.ts`)
+
+```ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 5173,
+    // Proxy Ollama to avoid CORS issues in dev
+    proxy: {
+      '/ollama': {
+        target: 'http://localhost:11434',
+        rewrite: path => path.replace(/^\/ollama/, ''),
+        changeOrigin: true,
+      }
+    }
+  }
+})
+```
+
+> **Note:** With the proxy, use `/ollama` as the base URL in dev. But since the app targets localhost, direct `http://localhost:11434` calls also work fine. The proxy is optional insurance. If shipping as a static file (no dev server), use the direct URL.
+
+---
+
+## Error Handling
+
+- **Ollama offline:** Show clear error in status bar + toast with instructions to run `ollama serve`
+- **No models:** Toast with `ollama pull llama3.2` suggestion
+- **Embedding failure:** Remove doc from list, show error toast with the specific error
+- **Stream interrupted:** Mark message as `[Generation cancelled]` or show partial content as-is
+- **Model not found during chat:** Show toast, don't crash
+- **CORS errors:** If detected (network error on localhost), show specific guidance to set `OLLAMA_ORIGINS=*`
+
+---
+
+## Periodic Health Check
+
+Poll `GET /api/tags` every 12 seconds when not generating.
+- If previously offline and now online: reload models automatically
+- If online → offline: update status bar dot to red
+
+---
+
+## Nice-to-Have Features (build after core works)
+
+- **Conversation history:** Multiple named chats, stored in `localStorage`, switchable from sidebar
+- **Model info card:** Hover/click on model name shows family, params, quantization, size on disk
+- **Prompt templates:** Pre-built system prompts (coder, analyst, creative, etc.)
+- **Context window visualizer:** Show how full the context is (estimated tokens used / total)
+- **Copy code button:** On every code block, a clipboard icon appears on hover
+- **Keyboard shortcuts:** `Cmd+K` to clear, `Cmd+/` to focus input, `Esc` to cancel generation
+- **RAG chunk size settings:** Let user configure chunk size and overlap in settings panel
+
+---
+
+## Running Locally
+
+```bash
+npm run dev
+# Open http://localhost:5173
+```
+
+Make sure Ollama is running:
+```bash
+ollama serve
+```
+
+Recommended first models to pull (all run great on RTX 4090 24GB):
+```bash
+ollama pull llama3.3:70b          # Best general purpose
+ollama pull qwen2.5:72b           # Great at code + reasoning
+ollama pull deepseek-r1:70b       # Reasoning / chain-of-thought
+ollama pull nomic-embed-text      # Dedicated RAG embeddings (fast, small)
+```
+
+---
+
+## Build for Static Use
+
+```bash
+npm run build
+# Serve dist/ with any static server, or just open dist/index.html
+```
+
+For pure file-based use (no dev server), ensure all API calls target `http://localhost:11434` directly (not the `/ollama` proxy path).
+
+---
+
+## Summary of Implementation Order
+
+1. **Project scaffold** — Vite, Tailwind, packages, folder structure
+2. **Types** — `src/types/index.ts`
+3. **Ollama lib** — `fetchModels`, `streamChat`, `getEmbedding`, `checkHealth`
+4. **Stores** — modelStore → settingsStore → chatStore → ragStore
+5. **UI primitives** — Slider, Toggle, IconButton, Select, Toast
+6. **Layout** — App shell (sidebar + main panel, fixed widths, scrolling)
+7. **Sidebar sections** — ModelSelector, EmbedModelSelector, GenerationParams, SystemPrompt, StatusBar
+8. **Chat components** — EmptyState, MessageBubble (with react-markdown), LoadingDots, ChatHeader
+9. **Input** — InputArea with auto-resize, send/cancel, RAG badge
+10. **Send flow** — Wire up the full send → stream → update loop
+11. **RAG lib** — `chunkText`, `embedDoc`, `searchDocs`, cosine sim
+12. **RAG UI** — Dropzone, DocList, RagSources accordion
+13. **Polish** — Animations, toast notifications, export, keyboard shortcuts
