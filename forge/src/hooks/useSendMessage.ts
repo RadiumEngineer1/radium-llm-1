@@ -56,7 +56,7 @@ export function useSendMessage() {
       // Only include system message if there's content — otherwise let the Modelfile's SYSTEM take over
       ...(systemContent.trim() ? [{ role: 'system', content: systemContent }] : []),
       ...history,
-      { role: 'user', content: '/no_think\n' + userText.trim() },
+      { role: 'user', content: userText.trim() },
     ];
 
     // Start streaming
