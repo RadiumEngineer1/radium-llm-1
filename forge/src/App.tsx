@@ -9,6 +9,7 @@ import EmbedModelSelector from './components/sidebar/EmbedModelSelector';
 import GenerationParams from './components/sidebar/GenerationParams';
 import SystemPrompt from './components/sidebar/SystemPrompt';
 import RagSection from './components/sidebar/RagSection';
+import SystemStats from './components/sidebar/SystemStats';
 import ChatHeader from './components/chat/ChatHeader';
 import MessageList from './components/chat/MessageList';
 import InputArea from './components/chat/InputArea';
@@ -56,6 +57,9 @@ export default function App() {
         </div>
         <div className="border-t border-border pt-3">
           <RagSection />
+        </div>
+        <div className="border-t border-border pt-3">
+          <SystemStats />
         </div>
       </Sidebar>
 
