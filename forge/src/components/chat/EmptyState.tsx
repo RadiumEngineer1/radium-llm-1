@@ -43,7 +43,7 @@ function AbominationEmptyState() {
   return (
     <div className={`absolute inset-0 z-20 flex flex-col items-center justify-center px-8 pointer-events-none transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
       {/* Title — above the art, not overlapping */}
-      <div className="text-center mb-6 abom-bubble-glitch">
+      <div className="text-center mb-10 abom-bubble-glitch">
         <h2 className="text-5xl font-ui font-bold tracking-[0.35em] mb-1 text-accent drop-shadow-[0_0_40px_rgba(255,107,43,0.4)] abom-title-flicker">
           THE ABOMINATION
         </h2>
@@ -51,11 +51,11 @@ function AbominationEmptyState() {
       </div>
 
       {/* Space for ASCII art to show — matches approximate art height */}
-      <div className="h-[300px] shrink-0" />
+      <div className="h-[320px] shrink-0" />
 
       {/* Quote + status below the art */}
-      <div className="mt-2 text-center">
-        <div className="max-w-lg mx-auto min-h-[3rem] mb-4">
+      <div className="mt-6 text-center">
+        <div className="max-w-lg mx-auto min-h-[3rem] mb-6">
           <p className="text-sm text-gray-500 italic font-body leading-relaxed">
             &gt; {typedQuote}
             <span className="inline-block w-[2px] h-4 bg-accent/50 ml-0.5 animate-pulse align-middle" />
