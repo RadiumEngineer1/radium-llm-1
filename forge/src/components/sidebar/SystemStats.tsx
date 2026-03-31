@@ -34,31 +34,31 @@ export default function SystemStats() {
         <div className="shrink-0">
           <svg width="70" height="70" viewBox="0 0 70 70" className="opacity-60">
             {/* Outer ring */}
-            <circle cx="35" cy="35" r="32" fill="none" stroke={isAbom ? '#ff4466' : '#ff6b2b'} strokeWidth="0.5" opacity="0.3" />
-            <circle cx="35" cy="35" r="22" fill="none" stroke={isAbom ? '#ff4466' : '#ff6b2b'} strokeWidth="0.5" opacity="0.2" />
-            <circle cx="35" cy="35" r="12" fill="none" stroke={isAbom ? '#ff4466' : '#ff6b2b'} strokeWidth="0.5" opacity="0.15" />
+            <circle cx="35" cy="35" r="32" fill="none" stroke={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent))'} strokeWidth="0.5" opacity="0.3" />
+            <circle cx="35" cy="35" r="22" fill="none" stroke={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent))'} strokeWidth="0.5" opacity="0.2" />
+            <circle cx="35" cy="35" r="12" fill="none" stroke={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent))'} strokeWidth="0.5" opacity="0.15" />
             {/* Crosshair */}
-            <line x1="35" y1="3" x2="35" y2="67" stroke={isAbom ? '#ff4466' : '#ff6b2b'} strokeWidth="0.3" opacity="0.15" />
-            <line x1="3" y1="35" x2="67" y2="35" stroke={isAbom ? '#ff4466' : '#ff6b2b'} strokeWidth="0.3" opacity="0.15" />
+            <line x1="35" y1="3" x2="35" y2="67" stroke={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent))'} strokeWidth="0.3" opacity="0.15" />
+            <line x1="3" y1="35" x2="67" y2="35" stroke={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent))'} strokeWidth="0.3" opacity="0.15" />
             {/* Sweep beam */}
-            <line x1="35" y1="35" x2="35" y2="3" stroke={isAbom ? '#ff4466' : '#ff6b2b'} strokeWidth="1" opacity="0.6">
+            <line x1="35" y1="35" x2="35" y2="3" stroke={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent))'} strokeWidth="1" opacity="0.6">
               <animateTransform attributeName="transform" type="rotate" from="0 35 35" to="360 35 35" dur={isAbom ? '3s' : '4s'} repeatCount="indefinite" />
             </line>
             {/* Sweep fade trail */}
-            <path d="M35,35 L35,3 A32,32 0 0,1 62,18 Z" fill={isAbom ? '#ff4466' : '#ff6b2b'} opacity="0.08">
+            <path d="M35,35 L35,3 A32,32 0 0,1 62,18 Z" fill={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent))'} opacity="0.08">
               <animateTransform attributeName="transform" type="rotate" from="0 35 35" to="360 35 35" dur={isAbom ? '3s' : '4s'} repeatCount="indefinite" />
             </path>
             {/* Blips */}
             {status === 'online' && (
               <>
-                <circle cx="28" cy="20" r="2" fill={isAbom ? '#ff4466' : '#00e5a0'} opacity="0.7">
+                <circle cx="28" cy="20" r="2" fill={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-success))'} opacity="0.7">
                   <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2s" repeatCount="indefinite" />
                 </circle>
-                <circle cx="45" cy="28" r="1.5" fill={isAbom ? '#ff4466' : '#00e5a0'} opacity="0.5">
+                <circle cx="45" cy="28" r="1.5" fill={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-success))'} opacity="0.5">
                   <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3s" repeatCount="indefinite" />
                 </circle>
                 {isGenerating && (
-                  <circle cx="38" cy="42" r="2.5" fill={isAbom ? '#ff4466' : '#ffd60a'} opacity="0.8">
+                  <circle cx="38" cy="42" r="2.5" fill={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent2))'} opacity="0.8">
                     <animate attributeName="r" values="2;4;2" dur="1s" repeatCount="indefinite" />
                     <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1s" repeatCount="indefinite" />
                   </circle>
@@ -66,7 +66,7 @@ export default function SystemStats() {
               </>
             )}
             {/* Center dot */}
-            <circle cx="35" cy="35" r="1.5" fill={isAbom ? '#ff4466' : '#ff6b2b'} opacity="0.8" />
+            <circle cx="35" cy="35" r="1.5" fill={isAbom ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent))'} opacity="0.8" />
           </svg>
         </div>
 
