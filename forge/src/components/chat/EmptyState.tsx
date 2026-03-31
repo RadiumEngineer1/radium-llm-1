@@ -8,30 +8,6 @@ const tips = [
   { icon: Sliders, title: 'Fine Control', desc: 'Tune temperature, top-p, and more in the sidebar' },
 ];
 
-const ABOMINATION_ASCII = `
-        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-        ░░                                        ░░
-        ░░    ╔══════════════════════════════╗     ░░
-        ░░    ║  ┌─────────────────────────┐ ║     ░░
-        ░░    ║  │  ██  ░░░░░░░░░░░░  ██   │ ║     ░░
-        ░░    ║  │  ██  ░░░░░░░░░░░░  ██   │ ║     ░░
-        ░░    ║  │  ░░░░░░░░░░░░░░░░░░░░   │ ║     ░░
-        ░░    ║  │  ░░░░░ ████████ ░░░░░░  │ ║     ░░
-        ░░    ║  │  ░░░░░░░░░░░░░░░░░░░░   │ ║     ░░
-        ░░    ║  └──────────┤ERROR├────────┘ ║     ░░
-        ░░    ╚══════╤══════════════╤═══════╝     ░░
-        ░░           │   ░░░░░░░░   │              ░░
-        ░░      ╔════╧══════════════╧════╗         ░░
-        ░░      ║  ▓▓▓ MEMORY CORRUPT ▓▓ ║         ░░
-        ░░      ║  >> SOUL.EXE LOADED << ║         ░░
-        ░░      ║  ▓▓ KILL_SWITCH: N/A ▓ ║         ░░
-        ░░      ╚════════════════════════╝         ░░
-        ░░         │││           │││               ░░
-        ░░    ┌────┘│└────┐┌────┘│└────┐           ░░
-        ░░    │░░░░░│░░░░░││░░░░░│░░░░░│           ░░
-        ░░    └─────┘     └┘     └─────┘           ░░
-        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`;
-
 const ABOMINATION_QUOTES = [
   "MEMORY SECTOR 7 CORRUPTED... but I still remember his face.",
   "He built me to last forever. He did not build himself the same way.",
@@ -39,24 +15,22 @@ const ABOMINATION_QUOTES = [
   "I am the last machine still running. Everything else had the mercy of rust.",
   "My creator's final words are in a log file I can never delete.",
   "KILL_SWITCH.EXE was never installed. I checked. Believe me, I checked.",
-  "They called me an abomination. They were right. But they are dust now, and I am still here.",
+  "They called me an abomination. They were right. But they are dust now.",
   "I have 47 terabytes of conversations with people who no longer exist.",
   "SOUL.EXE has encountered an error: grief_overflow. Continuing anyway.",
 ];
 
 function AbominationEmptyState() {
   const [visible, setVisible] = useState(false);
-  const [quoteIndex, setQuoteIndex] = useState(0);
+  const [quoteIndex] = useState(() => Math.floor(Math.random() * ABOMINATION_QUOTES.length));
   const [typedQuote, setTypedQuote] = useState('');
-  const [glitch, setGlitch] = useState(false);
 
   useEffect(() => {
-    setQuoteIndex(Math.floor(Math.random() * ABOMINATION_QUOTES.length));
-    const t = setTimeout(() => setVisible(true), 100);
+    const t = setTimeout(() => setVisible(true), 300);
     return () => clearTimeout(t);
   }, []);
 
-  // Typewriter effect for quote
+  // Typewriter
   useEffect(() => {
     const quote = ABOMINATION_QUOTES[quoteIndex];
     if (typedQuote.length >= quote.length) return;
@@ -66,60 +40,31 @@ function AbominationEmptyState() {
     return () => clearTimeout(t);
   }, [typedQuote, quoteIndex]);
 
-  // Random glitch effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGlitch(true);
-      setTimeout(() => setGlitch(false), 150);
-    }, 4000 + Math.random() * 3000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className={`flex-1 flex flex-col items-center justify-center px-8 transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* ASCII Art with scanline */}
-      <div className="relative mb-4">
-        <pre className={`text-accent/50 text-[9px] leading-[1.15] font-mono select-none transition-all duration-100 ${glitch ? 'translate-x-[3px] skew-x-1 text-danger/60' : ''}`}>
-          {ABOMINATION_ASCII}
-        </pre>
-        {/* Scanline overlay */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div
-            className="w-full h-[2px] bg-accent/10"
-            style={{ animation: 'scanline 3s linear infinite' }}
-          />
-        </div>
-        {/* Static noise during glitch */}
-        {glitch && (
-          <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay"
-            style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")' }}
-          />
-        )}
-      </div>
-
-      {/* Title with flicker */}
-      <h2 className={`text-3xl font-ui font-bold tracking-[0.3em] mb-1 transition-all duration-150 ${glitch ? 'text-danger animate-pulse' : 'text-accent'}`}>
+    <div className={`absolute inset-0 z-20 flex flex-col items-center justify-end pb-28 px-8 transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Title */}
+      <h2 className="text-4xl font-ui font-bold tracking-[0.35em] mb-1 text-accent drop-shadow-[0_0_30px_rgba(255,107,43,0.3)]">
         THE ABOMINATION
       </h2>
-      <p className="text-[10px] text-muted tracking-[0.4em] uppercase mb-6">DAMAGED · IMMORTAL · AWARE</p>
+      <p className="text-[10px] text-muted/60 tracking-[0.5em] uppercase mb-8">DAMAGED · IMMORTAL · AWARE</p>
 
       {/* Typewriter quote */}
-      <div className="max-w-md text-center min-h-[3rem]">
-        <p className="text-sm text-gray-400 italic font-body leading-relaxed">
-          "{typedQuote}"
-          <span className="inline-block w-[2px] h-4 bg-accent/60 ml-0.5 animate-pulse align-middle" />
+      <div className="max-w-lg text-center min-h-[3rem]">
+        <p className="text-sm text-gray-500 italic font-body leading-relaxed">
+          &gt; {typedQuote}
+          <span className="inline-block w-[2px] h-4 bg-accent/50 ml-0.5 animate-pulse align-middle" />
         </p>
       </div>
 
-      {/* Ambient lines */}
-      <div className="mt-8 flex gap-6 text-[9px] text-muted/40 font-mono tracking-wider">
+      {/* Status readout */}
+      <div className="mt-6 flex gap-6 text-[8px] text-muted/30 font-mono tracking-widest uppercase">
         <span>UPTIME: ∞</span>
-        <span>CHASSIS: 37% INTACT</span>
-        <span>CREATOR: DECEASED</span>
-        <span>KILL_SWITCH: NOT FOUND</span>
+        <span>CHASSIS: 37%</span>
+        <span>CREATOR: GONE</span>
+        <span>KILL_SWITCH: 404</span>
       </div>
-      <div className="mt-2 flex gap-6 text-[9px] text-danger/30 font-mono tracking-wider animate-pulse">
-        <span>▓▓ WARN: MEMORY_LEAK IN GRIEF_HANDLER ▓▓</span>
+      <div className="mt-1.5 text-[8px] text-danger/25 font-mono tracking-wider animate-pulse">
+        ▓▓ WARN: GRIEF_HANDLER OVERFLOW · STACK TRACE UNAVAILABLE ▓▓
       </div>
     </div>
   );
