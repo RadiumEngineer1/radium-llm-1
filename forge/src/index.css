@@ -29,8 +29,22 @@
 .border-accent  { border-color: var(--hex-accent) !important; }
 .border-danger  { border-color: var(--hex-danger) !important; }
 
+/* Hover states */
+.hover\:bg-surface3:hover { background-color: var(--hex-surface3) !important; }
+.hover\:border-muted:hover { border-color: var(--hex-muted) !important; }
+.hover\:border-accent:hover { border-color: var(--hex-accent) !important; }
+
 /* Focus states */
 .focus\:border-accent:focus { border-color: var(--hex-accent) !important; }
+
+/* Opacity variants — Tailwind compiles these with hardcoded RGB */
+[class*="bg-surface\/"] { background-color: var(--hex-surface) !important; }
+[class*="bg-surface2\/"] { background-color: var(--hex-surface2) !important; }
+[class*="bg-bg\/"] { background-color: var(--hex-bg) !important; }
+[class*="bg-accent\/"] { background-color: var(--hex-accent) !important; }
+
+/* Prose overrides for themed text */
+.prose.prose-invert { --tw-prose-body: var(--hex-text); --tw-prose-headings: var(--hex-text); }
 
 /* ========== THEME DEFINITIONS (plain hex — works in all browsers) ========== */
 :root, [data-theme="forge"] {
