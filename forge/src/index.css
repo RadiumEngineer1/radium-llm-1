@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+/* === RUNTIME THEME OVERRIDES ===
+   Tailwind compiles colors as static values. These rules override them
+   with CSS variables so themes can change at runtime. Must come AFTER
+   @tailwind utilities to win specificity. */
+
+/* Backgrounds */
+.bg-bg       { background-color: var(--hex-bg) !important; }
+.bg-surface  { background-color: var(--hex-surface) !important; }
+.bg-surface2 { background-color: var(--hex-surface2) !important; }
+.bg-surface3 { background-color: var(--hex-surface3) !important; }
+.bg-accent   { background-color: var(--hex-accent) !important; }
+.bg-accent2  { background-color: var(--hex-accent2) !important; }
+.bg-danger   { background-color: var(--hex-danger) !important; }
+.bg-success  { background-color: var(--hex-success) !important; }
+
+/* Text */
+.text-accent   { color: var(--hex-accent) !important; }
+.text-accent2  { color: var(--hex-accent2) !important; }
+.text-muted    { color: var(--hex-muted) !important; }
+.text-danger   { color: var(--hex-danger) !important; }
+.text-success  { color: var(--hex-success) !important; }
+
+/* Borders */
+.border-border  { border-color: var(--hex-border) !important; }
+.border-accent  { border-color: var(--hex-accent) !important; }
+.border-danger  { border-color: var(--hex-danger) !important; }
+
+/* Focus states */
+.focus\:border-accent:focus { border-color: var(--hex-accent) !important; }
+
 /* ========== THEME DEFINITIONS (plain hex — works in all browsers) ========== */
 :root, [data-theme="forge"] {
   --hex-bg:       #07070c;
