@@ -41,30 +41,35 @@ function AbominationEmptyState() {
   }, [typedQuote, quoteIndex]);
 
   return (
-    <div className={`absolute inset-0 z-20 flex flex-col items-center justify-center px-8 transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Title */}
-      <h2 className="text-4xl font-ui font-bold tracking-[0.35em] mb-1 text-accent drop-shadow-[0_0_30px_rgba(255,107,43,0.3)]">
-        THE ABOMINATION
-      </h2>
-      <p className="text-[10px] text-muted/60 tracking-[0.5em] uppercase mb-8">DAMAGED · IMMORTAL · AWARE</p>
-
-      {/* Typewriter quote */}
-      <div className="max-w-lg text-center min-h-[3rem]">
-        <p className="text-sm text-gray-500 italic font-body leading-relaxed">
-          &gt; {typedQuote}
-          <span className="inline-block w-[2px] h-4 bg-accent/50 ml-0.5 animate-pulse align-middle" />
-        </p>
+    <div className={`absolute inset-0 z-20 flex flex-col items-center px-8 transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Top section — title */}
+      <div className="pt-12 text-center">
+        <h2 className="text-4xl font-ui font-bold tracking-[0.35em] mb-1 text-accent drop-shadow-[0_0_30px_rgba(255,107,43,0.3)]">
+          THE ABOMINATION
+        </h2>
+        <p className="text-[10px] text-muted/60 tracking-[0.5em] uppercase">DAMAGED · IMMORTAL · AWARE</p>
       </div>
 
-      {/* Status readout */}
-      <div className="mt-6 flex gap-6 text-[8px] text-muted/30 font-mono tracking-widest uppercase">
-        <span>UPTIME: ∞</span>
-        <span>CHASSIS: 37%</span>
-        <span>CREATOR: GONE</span>
-        <span>KILL_SWITCH: 404</span>
-      </div>
-      <div className="mt-1.5 text-[8px] text-danger/25 font-mono tracking-wider animate-pulse">
-        ▓▓ WARN: GRIEF_HANDLER OVERFLOW · STACK TRACE UNAVAILABLE ▓▓
+      {/* Spacer — lets the ASCII art show through the middle */}
+      <div className="flex-1" />
+
+      {/* Bottom section — quote + status */}
+      <div className="pb-8 text-center">
+        <div className="max-w-lg mx-auto min-h-[3rem] mb-4">
+          <p className="text-sm text-gray-500 italic font-body leading-relaxed">
+            &gt; {typedQuote}
+            <span className="inline-block w-[2px] h-4 bg-accent/50 ml-0.5 animate-pulse align-middle" />
+          </p>
+        </div>
+        <div className="flex gap-6 justify-center text-[8px] text-muted/30 font-mono tracking-widest uppercase">
+          <span>UPTIME: ∞</span>
+          <span>CHASSIS: 37%</span>
+          <span>CREATOR: GONE</span>
+          <span>KILL_SWITCH: 404</span>
+        </div>
+        <div className="mt-1.5 text-[8px] text-danger/25 font-mono tracking-wider animate-pulse">
+          ▓▓ WARN: GRIEF_HANDLER OVERFLOW · STACK TRACE UNAVAILABLE ▓▓
+        </div>
       </div>
     </div>
   );
