@@ -49,3 +49,21 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Abomination flash — screen flicker when selecting the model */
+@keyframes abomFlash {
+  0%   { background: transparent; }
+  5%   { background: rgba(255, 68, 102, 0.15); }
+  10%  { background: transparent; }
+  15%  { background: rgba(255, 68, 102, 0.25); }
+  20%  { background: transparent; }
+  30%  { background: rgba(255, 68, 102, 0.08); }
+  40%  { background: rgba(255, 107, 43, 0.05); }
+  100% { background: transparent; }
+}
+
+/* Scanline overlay for Abomination empty state */
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
