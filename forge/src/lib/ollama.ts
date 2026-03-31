@@ -1,6 +1,6 @@
 import type { OllamaModel } from '../types';
 
-const BASE_URL = 'http://localhost:11434';
+const BASE_URL = import.meta.env.DEV ? '/ollama' : 'http://localhost:11434';
 
 export async function checkHealth(): Promise<boolean> {
   try {
