@@ -51,7 +51,7 @@ function AbominationEmptyState() {
       </div>
 
       {/* Space for ASCII art to show — matches approximate art height */}
-      <div className="h-[280px] shrink-0" />
+      <div className="h-[300px] shrink-0" />
 
       {/* Quote + status below the art */}
       <div className="mt-2 text-center">

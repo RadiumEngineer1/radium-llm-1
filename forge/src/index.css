@@ -19,68 +19,72 @@
   --glow-2: rgba(255, 214, 10, 0.02);
 }
 
+/* Cyberpunk — deep purple with neon */
 [data-theme="cyberpunk"] {
-  --color-bg:       #0a0012;
-  --color-surface:  #12001f;
-  --color-surface2: #1a0830;
-  --color-surface3: #22103a;
-  --color-border:   #2e1850;
+  --color-bg:       #0a0018;
+  --color-surface:  #150028;
+  --color-surface2: #1e0838;
+  --color-surface3: #281245;
+  --color-border:   #3a1a60;
   --color-accent:   #00f0ff;
   --color-accent2:  #ff00aa;
-  --color-muted:    #5a4080;
+  --color-muted:    #6a50a0;
   --color-danger:   #ff2060;
   --color-success:  #00ff88;
   --color-text:     #e0d0ff;
-  --glow-1: rgba(0, 240, 255, 0.05);
-  --glow-2: rgba(255, 0, 170, 0.03);
+  --glow-1: rgba(0, 240, 255, 0.06);
+  --glow-2: rgba(255, 0, 170, 0.04);
 }
 
+/* Military — full green HUD on dark olive */
 [data-theme="military"] {
-  --color-bg:       #0a0d08;
-  --color-surface:  #131a0e;
-  --color-surface2: #1a2214;
-  --color-surface3: #222b1c;
-  --color-border:   #2e3822;
-  --color-accent:   #d4a520;
-  --color-accent2:  #8fbc4a;
-  --color-muted:    #556b3a;
-  --color-danger:   #cc3333;
-  --color-success:  #4caf50;
-  --color-text:     #c8d0b0;
-  --glow-1: rgba(212, 165, 32, 0.04);
-  --glow-2: rgba(143, 188, 74, 0.02);
+  --color-bg:       #0b1a0b;
+  --color-surface:  #142814;
+  --color-surface2: #1e3a1e;
+  --color-surface3: #264a26;
+  --color-border:   #305530;
+  --color-accent:   #44dd44;
+  --color-accent2:  #aaee44;
+  --color-muted:    #447744;
+  --color-danger:   #dd4444;
+  --color-success:  #44dd44;
+  --color-text:     #88ee88;
+  --glow-1: rgba(68, 221, 68, 0.05);
+  --glow-2: rgba(170, 238, 68, 0.03);
 }
 
+/* Terminal — phosphor green CRT on pure black */
 [data-theme="terminal"] {
   --color-bg:       #000000;
-  --color-surface:  #0a0a0a;
-  --color-surface2: #111111;
-  --color-surface3: #1a1a1a;
-  --color-border:   #222222;
+  --color-surface:  #050505;
+  --color-surface2: #0a0a0a;
+  --color-surface3: #121212;
+  --color-border:   #1a1a1a;
   --color-accent:   #33ff33;
   --color-accent2:  #ffaa00;
-  --color-muted:    #444444;
+  --color-muted:    #336633;
   --color-danger:   #ff3333;
   --color-success:  #33ff33;
   --color-text:     #33ff33;
-  --glow-1: rgba(51, 255, 51, 0.04);
-  --glow-2: rgba(255, 170, 0, 0.02);
+  --glow-1: rgba(51, 255, 51, 0.06);
+  --glow-2: rgba(255, 170, 0, 0.03);
 }
 
+/* Ocean — light mode, pale blue/white backgrounds */
 [data-theme="ocean"] {
-  --color-bg:       #020a14;
-  --color-surface:  #051420;
-  --color-surface2: #081e2e;
-  --color-surface3: #0c283a;
-  --color-border:   #103248;
-  --color-accent:   #00d4ff;
-  --color-accent2:  #00ffa0;
-  --color-muted:    #2a5a70;
-  --color-danger:   #ff5577;
-  --color-success:  #00e5a0;
-  --color-text:     #b0d8e8;
-  --glow-1: rgba(0, 212, 255, 0.04);
-  --glow-2: rgba(0, 255, 160, 0.02);
+  --color-bg:       #e8f4f8;
+  --color-surface:  #f0f8fc;
+  --color-surface2: #f5fafd;
+  --color-surface3: #ffffff;
+  --color-border:   #c0d8e8;
+  --color-accent:   #0088aa;
+  --color-accent2:  #00aa66;
+  --color-muted:    #7098b0;
+  --color-danger:   #dd3355;
+  --color-success:  #00aa66;
+  --color-text:     #1a3848;
+  --glow-1: rgba(0, 136, 170, 0.04);
+  --glow-2: rgba(0, 170, 102, 0.03);
 }
 
 @layer base {
@@ -112,6 +116,12 @@
   ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
 
   .hljs { background: rgba(0,0,0,0.4) !important; }
+
+  /* Ocean light theme overrides for text readability */
+  [data-theme="ocean"] .prose-invert { --tw-prose-body: #1a3848; --tw-prose-headings: #0a2838; }
+  [data-theme="ocean"] select { color: #1a3848; }
+  [data-theme="ocean"] textarea { color: #1a3848; }
+  [data-theme="ocean"] input { color: #1a3848; }
 }
 
 input[type="range"] { -webkit-appearance: none; height: 2px; background: var(--color-border); border-radius: 1px; }

@@ -12,9 +12,9 @@ export interface ThemeMeta {
 export const THEMES: ThemeMeta[] = [
   { id: 'forge',     name: 'Forge',     swatch: '#ff6b2b' },
   { id: 'cyberpunk', name: 'Cyberpunk', swatch: '#00f0ff' },
-  { id: 'military',  name: 'Military',  swatch: '#d4a520' },
+  { id: 'military',  name: 'Military',  swatch: '#44dd44' },
   { id: 'terminal',  name: 'Terminal',  swatch: '#33ff33' },
-  { id: 'ocean',     name: 'Ocean',     swatch: '#00d4ff' },
+  { id: 'ocean',     name: 'Ocean',     swatch: '#e8f4f8' },
 ];
 
 interface ThemeStore {
