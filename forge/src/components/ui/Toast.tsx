@@ -43,7 +43,7 @@ function ToastItem({ toast }: { toast: ToastItem }) {
 
   return (
     <div
-      className={`border rounded-lg px-4 py-3 text-sm text-[rgb(var(--color-text))] shadow-lg transition-all duration-300 ${typeStyles[toast.type]} ${visible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+      className={`border rounded-lg px-4 py-3 text-sm text-[var(--hex-text)] shadow-lg transition-all duration-300 ${typeStyles[toast.type]} ${visible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
       onClick={() => remove(toast.id)}
     >
       {toast.message}

@@ -2,95 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ========== THEME DEFINITIONS (space-separated RGB for Tailwind) ========== */
+/* ========== THEME DEFINITIONS (plain hex — works in all browsers) ========== */
 :root, [data-theme="forge"] {
-  --color-bg:       7 7 12;
-  --color-surface:  14 14 24;
-  --color-surface2: 20 20 31;
-  --color-surface3: 26 26 40;
-  --color-border:   30 30 48;
-  --color-accent:   255 107 43;
-  --color-accent2:  255 214 10;
-  --color-muted:    78 78 102;
-  --color-danger:   255 68 102;
-  --color-success:  0 229 160;
-  --color-text:     221 221 232;
+  --hex-bg:       #07070c;
+  --hex-surface:  #0e0e18;
+  --hex-surface2: #14141f;
+  --hex-surface3: #1a1a28;
+  --hex-border:   #1e1e30;
+  --hex-accent:   #ff6b2b;
+  --hex-accent2:  #ffd60a;
+  --hex-muted:    #4e4e66;
+  --hex-danger:   #ff4466;
+  --hex-success:  #00e5a0;
+  --hex-text:     #dddde8;
   --glow-1: rgba(255, 107, 43, 0.045);
   --glow-2: rgba(255, 214, 10, 0.02);
 }
 
-/* Cyberpunk — deep purple with neon */
 [data-theme="cyberpunk"] {
-  --color-bg:       10 0 24;
-  --color-surface:  21 0 40;
-  --color-surface2: 30 8 56;
-  --color-surface3: 40 18 69;
-  --color-border:   58 26 96;
-  --color-accent:   0 240 255;
-  --color-accent2:  255 0 170;
-  --color-muted:    106 80 160;
-  --color-danger:   255 32 96;
-  --color-success:  0 255 136;
-  --color-text:     224 208 255;
+  --hex-bg:       #0a0018;
+  --hex-surface:  #150028;
+  --hex-surface2: #1e0838;
+  --hex-surface3: #281245;
+  --hex-border:   #3a1a60;
+  --hex-accent:   #00f0ff;
+  --hex-accent2:  #ff00aa;
+  --hex-muted:    #6a50a0;
+  --hex-danger:   #ff2060;
+  --hex-success:  #00ff88;
+  --hex-text:     #e0d0ff;
   --glow-1: rgba(0, 240, 255, 0.06);
   --glow-2: rgba(255, 0, 170, 0.04);
 }
 
-/* Military — full green HUD on dark olive */
 [data-theme="military"] {
-  --color-bg:       11 26 11;
-  --color-surface:  20 40 20;
-  --color-surface2: 30 58 30;
-  --color-surface3: 38 74 38;
-  --color-border:   48 85 48;
-  --color-accent:   68 221 68;
-  --color-accent2:  170 238 68;
-  --color-muted:    68 119 68;
-  --color-danger:   221 68 68;
-  --color-success:  68 221 68;
-  --color-text:     136 238 136;
+  --hex-bg:       #0b1a0b;
+  --hex-surface:  #142814;
+  --hex-surface2: #1e3a1e;
+  --hex-surface3: #264a26;
+  --hex-border:   #305530;
+  --hex-accent:   #44dd44;
+  --hex-accent2:  #aaee44;
+  --hex-muted:    #447744;
+  --hex-danger:   #dd4444;
+  --hex-success:  #44dd44;
+  --hex-text:     #88ee88;
   --glow-1: rgba(68, 221, 68, 0.05);
   --glow-2: rgba(170, 238, 68, 0.03);
 }
 
-/* Terminal — phosphor green CRT on pure black */
 [data-theme="terminal"] {
-  --color-bg:       0 0 0;
-  --color-surface:  5 5 5;
-  --color-surface2: 10 10 10;
-  --color-surface3: 18 18 18;
-  --color-border:   26 26 26;
-  --color-accent:   51 255 51;
-  --color-accent2:  255 170 0;
-  --color-muted:    51 102 51;
-  --color-danger:   255 51 51;
-  --color-success:  51 255 51;
-  --color-text:     51 255 51;
+  --hex-bg:       #000000;
+  --hex-surface:  #050505;
+  --hex-surface2: #0a0a0a;
+  --hex-surface3: #121212;
+  --hex-border:   #1a1a1a;
+  --hex-accent:   #33ff33;
+  --hex-accent2:  #ffaa00;
+  --hex-muted:    #336633;
+  --hex-danger:   #ff3333;
+  --hex-success:  #33ff33;
+  --hex-text:     #33ff33;
   --glow-1: rgba(51, 255, 51, 0.06);
   --glow-2: rgba(255, 170, 0, 0.03);
 }
 
-/* Ocean — light mode, pale blue/white backgrounds */
 [data-theme="ocean"] {
-  --color-bg:       232 244 248;
-  --color-surface:  240 248 252;
-  --color-surface2: 245 250 253;
-  --color-surface3: 255 255 255;
-  --color-border:   192 216 232;
-  --color-accent:   0 136 170;
-  --color-accent2:  0 170 102;
-  --color-muted:    112 152 176;
-  --color-danger:   221 51 85;
-  --color-success:  0 170 102;
-  --color-text:     26 56 72;
+  --hex-bg:       #e8f4f8;
+  --hex-surface:  #f0f8fc;
+  --hex-surface2: #f5fafd;
+  --hex-surface3: #ffffff;
+  --hex-border:   #c0d8e8;
+  --hex-accent:   #0088aa;
+  --hex-accent2:  #00aa66;
+  --hex-muted:    #7098b0;
+  --hex-danger:   #dd3355;
+  --hex-success:  #00aa66;
+  --hex-text:     #1a3848;
   --glow-1: rgba(0, 136, 170, 0.04);
   --glow-2: rgba(0, 170, 102, 0.03);
 }
 
 @layer base {
   body {
-    background-color: rgb(var(--color-bg));
-    color: rgb(var(--color-text));
+    background-color: var(--hex-bg);
+    color: var(--hex-text);
     font-family: 'DM Sans', sans-serif;
   }
 
@@ -113,24 +109,24 @@
 
   ::-webkit-scrollbar { width: 3px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgb(var(--color-border)); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb { background: var(--hex-border); border-radius: 2px; }
 
   .hljs { background: rgba(0,0,0,0.4) !important; }
 
   /* Ocean light theme overrides for text readability */
-  [data-theme="ocean"] .prose-invert { --tw-prose-body: rgb(var(--color-text)); --tw-prose-headings: rgb(var(--color-text)); }
-  [data-theme="ocean"] select { color: rgb(var(--color-text)); }
-  [data-theme="ocean"] textarea { color: rgb(var(--color-text)); }
-  [data-theme="ocean"] input { color: rgb(var(--color-text)); }
+  [data-theme="ocean"] .prose-invert { --tw-prose-body: var(--hex-text); --tw-prose-headings: var(--hex-text); }
+  [data-theme="ocean"] select { color: var(--hex-text); }
+  [data-theme="ocean"] textarea { color: var(--hex-text); }
+  [data-theme="ocean"] input { color: var(--hex-text); }
 }
 
-input[type="range"] { -webkit-appearance: none; height: 2px; background: rgb(var(--color-border)); border-radius: 1px; }
+input[type="range"] { -webkit-appearance: none; height: 2px; background: var(--hex-border); border-radius: 1px; }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 13px; height: 13px;
-  background: rgb(var(--color-accent));
+  background: var(--hex-accent);
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(var(--color-accent), 0.5);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--hex-accent) 50%, transparent);
   cursor: pointer;
   transition: transform 0.1s;
 }

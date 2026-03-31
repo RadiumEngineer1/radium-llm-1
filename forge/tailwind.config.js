@@ -1,8 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-
-// Tailwind v3 color with CSS variable + alpha support
-const c = (name) => `rgb(var(${name}) / <alpha-value>)`
-
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
@@ -13,16 +9,16 @@ export default {
         body: ['DM Sans', 'sans-serif'],
       },
       colors: {
-        bg:       c('--color-bg'),
-        surface:  c('--color-surface'),
-        surface2: c('--color-surface2'),
-        surface3: c('--color-surface3'),
-        border:   c('--color-border'),
-        accent:   c('--color-accent'),
-        accent2:  c('--color-accent2'),
-        muted:    c('--color-muted'),
-        danger:   c('--color-danger'),
-        success:  c('--color-success'),
+        bg:       'var(--hex-bg)',
+        surface:  'var(--hex-surface)',
+        surface2: 'var(--hex-surface2)',
+        surface3: 'var(--hex-surface3)',
+        border:   'var(--hex-border)',
+        accent:   'var(--hex-accent)',
+        accent2:  'var(--hex-accent2)',
+        muted:    'var(--hex-muted)',
+        danger:   'var(--hex-danger)',
+        success:  'var(--hex-success)',
       },
     },
   },

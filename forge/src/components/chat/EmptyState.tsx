@@ -84,7 +84,7 @@ function ForgeEmptyState() {
         {tips.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="bg-surface2 border border-border rounded-lg p-4 text-center">
             <Icon size={20} className="text-accent mx-auto mb-2" />
-            <h3 className="text-xs font-semibold text-[rgb(var(--color-text))] mb-1">{title}</h3>
+            <h3 className="text-xs font-semibold text-[var(--hex-text)] mb-1">{title}</h3>
             <p className="text-[10px] text-muted leading-relaxed">{desc}</p>
           </div>
         ))}

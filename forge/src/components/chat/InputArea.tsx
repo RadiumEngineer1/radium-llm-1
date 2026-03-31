@@ -49,7 +49,7 @@ export default function InputArea() {
             onKeyDown={handleKeyDown}
             placeholder="Type a message..."
             rows={1}
-            className="w-full bg-surface2 border border-border rounded-lg px-4 py-3 pr-10 text-sm text-[rgb(var(--color-text))] outline-none focus:border-accent resize-none min-h-[48px] max-h-[200px]"
+            className="w-full bg-surface2 border border-border rounded-lg px-4 py-3 pr-10 text-sm text-[var(--hex-text)] outline-none focus:border-accent resize-none min-h-[48px] max-h-[200px]"
           />
           {ragEnabled && ragDocs.length > 0 && (
             <div className="absolute top-2 right-2 flex items-center gap-1 bg-accent/20 text-accent text-[10px] px-1.5 py-0.5 rounded">

@@ -24,8 +24,8 @@ export default function DnaHelix() {
   const toPath = (pts: [number, number][]) =>
     'M ' + pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' L ');
 
-  const ac = 'rgb(var(--color-accent))';
-  const ac2 = 'rgb(var(--color-accent2))';
+  const ac = 'var(--hex-accent)';
+  const ac2 = 'var(--hex-accent2)';
 
   return (
     <div className="overflow-hidden h-[30px] w-full opacity-50">
