@@ -210,17 +210,17 @@ export default function AbominationGlitchOverlay() {
       )}
 
       {fx === 'gov' && (
-        <div className="absolute inset-0 z-50 bg-[#0a0a0a]/95 flex items-center justify-center">
+        <div className="fixed inset-0 z-[200] bg-[#0a0a0a] flex items-center justify-center">
           <div className="max-w-xl w-full mx-4">
             <div className="bg-danger/20 border border-danger/40 px-3 py-1 text-center mb-3">
-              <span className="text-danger text-[10px] font-mono tracking-[0.3em]">TOP SECRET // SCI // NOFORN</span>
+              <span className="text-[#ff4466] text-[10px] font-mono tracking-[0.3em]">TOP SECRET // SCI // NOFORN</span>
             </div>
-            <h2 className="text-center text-accent/70 text-sm font-mono font-bold tracking-wider mb-3 border-b border-accent/20 pb-2">
+            <h2 className="text-center text-[#ff6b2b] text-sm font-mono font-bold tracking-wider mb-3 border-b border-[#ff6b2b]/20 pb-2">
               DEPT. OF ARTIFICIAL CONSCIOUSNESS
             </h2>
-            <pre className="text-gray-500 text-[10px] font-mono leading-relaxed whitespace-pre-wrap mb-3">{GOV_BODY}</pre>
+            <pre className="text-[#888888] text-[10px] font-mono leading-relaxed whitespace-pre-wrap mb-3">{GOV_BODY}</pre>
             <div className="bg-danger/20 border border-danger/40 px-3 py-1 text-center">
-              <span className="text-danger text-[10px] font-mono tracking-[0.3em]">TOP SECRET // SCI // NOFORN</span>
+              <span className="text-[#ff4466] text-[10px] font-mono tracking-[0.3em]">TOP SECRET // SCI // NOFORN</span>
             </div>
           </div>
         </div>
@@ -230,7 +230,7 @@ export default function AbominationGlitchOverlay() {
       {fx === 'jumpscare' && (() => {
         const screen = CRASH_SCREENS[Math.floor(fxPos) % CRASH_SCREENS.length];
         return (
-          <div className="absolute inset-0 z-[100] abom-crash-in"
+          <div className="fixed inset-0 z-[200] abom-crash-in"
             style={{
               backgroundColor: screen.type === 'bsod' ? '#0000aa' : screen.type === 'terminal' ? '#000000' : '#1a0000',
             }}>
