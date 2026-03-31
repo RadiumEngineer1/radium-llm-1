@@ -2,87 +2,87 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ========== THEME DEFINITIONS (RGB triplets for Tailwind opacity) ========== */
+/* ========== THEME DEFINITIONS (space-separated RGB for Tailwind) ========== */
 :root, [data-theme="forge"] {
-  --color-bg:       7, 7, 12;
-  --color-surface:  14, 14, 24;
-  --color-surface2: 20, 20, 31;
-  --color-surface3: 26, 26, 40;
-  --color-border:   30, 30, 48;
-  --color-accent:   255, 107, 43;
-  --color-accent2:  255, 214, 10;
-  --color-muted:    78, 78, 102;
-  --color-danger:   255, 68, 102;
-  --color-success:  0, 229, 160;
-  --color-text:     221, 221, 232;
+  --color-bg:       7 7 12;
+  --color-surface:  14 14 24;
+  --color-surface2: 20 20 31;
+  --color-surface3: 26 26 40;
+  --color-border:   30 30 48;
+  --color-accent:   255 107 43;
+  --color-accent2:  255 214 10;
+  --color-muted:    78 78 102;
+  --color-danger:   255 68 102;
+  --color-success:  0 229 160;
+  --color-text:     221 221 232;
   --glow-1: rgba(255, 107, 43, 0.045);
   --glow-2: rgba(255, 214, 10, 0.02);
 }
 
 /* Cyberpunk — deep purple with neon */
 [data-theme="cyberpunk"] {
-  --color-bg:       10, 0, 24;
-  --color-surface:  21, 0, 40;
-  --color-surface2: 30, 8, 56;
-  --color-surface3: 40, 18, 69;
-  --color-border:   58, 26, 96;
-  --color-accent:   0, 240, 255;
-  --color-accent2:  255, 0, 170;
-  --color-muted:    106, 80, 160;
-  --color-danger:   255, 32, 96;
-  --color-success:  0, 255, 136;
-  --color-text:     224, 208, 255;
+  --color-bg:       10 0 24;
+  --color-surface:  21 0 40;
+  --color-surface2: 30 8 56;
+  --color-surface3: 40 18 69;
+  --color-border:   58 26 96;
+  --color-accent:   0 240 255;
+  --color-accent2:  255 0 170;
+  --color-muted:    106 80 160;
+  --color-danger:   255 32 96;
+  --color-success:  0 255 136;
+  --color-text:     224 208 255;
   --glow-1: rgba(0, 240, 255, 0.06);
   --glow-2: rgba(255, 0, 170, 0.04);
 }
 
 /* Military — full green HUD on dark olive */
 [data-theme="military"] {
-  --color-bg:       11, 26, 11;
-  --color-surface:  20, 40, 20;
-  --color-surface2: 30, 58, 30;
-  --color-surface3: 38, 74, 38;
-  --color-border:   48, 85, 48;
-  --color-accent:   68, 221, 68;
-  --color-accent2:  170, 238, 68;
-  --color-muted:    68, 119, 68;
-  --color-danger:   221, 68, 68;
-  --color-success:  68, 221, 68;
-  --color-text:     136, 238, 136;
+  --color-bg:       11 26 11;
+  --color-surface:  20 40 20;
+  --color-surface2: 30 58 30;
+  --color-surface3: 38 74 38;
+  --color-border:   48 85 48;
+  --color-accent:   68 221 68;
+  --color-accent2:  170 238 68;
+  --color-muted:    68 119 68;
+  --color-danger:   221 68 68;
+  --color-success:  68 221 68;
+  --color-text:     136 238 136;
   --glow-1: rgba(68, 221, 68, 0.05);
   --glow-2: rgba(170, 238, 68, 0.03);
 }
 
 /* Terminal — phosphor green CRT on pure black */
 [data-theme="terminal"] {
-  --color-bg:       0, 0, 0;
-  --color-surface:  5, 5, 5;
-  --color-surface2: 10, 10, 10;
-  --color-surface3: 18, 18, 18;
-  --color-border:   26, 26, 26;
-  --color-accent:   51, 255, 51;
-  --color-accent2:  255, 170, 0;
-  --color-muted:    51, 102, 51;
-  --color-danger:   255, 51, 51;
-  --color-success:  51, 255, 51;
-  --color-text:     51, 255, 51;
+  --color-bg:       0 0 0;
+  --color-surface:  5 5 5;
+  --color-surface2: 10 10 10;
+  --color-surface3: 18 18 18;
+  --color-border:   26 26 26;
+  --color-accent:   51 255 51;
+  --color-accent2:  255 170 0;
+  --color-muted:    51 102 51;
+  --color-danger:   255 51 51;
+  --color-success:  51 255 51;
+  --color-text:     51 255 51;
   --glow-1: rgba(51, 255, 51, 0.06);
   --glow-2: rgba(255, 170, 0, 0.03);
 }
 
 /* Ocean — light mode, pale blue/white backgrounds */
 [data-theme="ocean"] {
-  --color-bg:       232, 244, 248;
-  --color-surface:  240, 248, 252;
-  --color-surface2: 245, 250, 253;
-  --color-surface3: 255, 255, 255;
-  --color-border:   192, 216, 232;
-  --color-accent:   0, 136, 170;
-  --color-accent2:  0, 170, 102;
-  --color-muted:    112, 152, 176;
-  --color-danger:   221, 51, 85;
-  --color-success:  0, 170, 102;
-  --color-text:     26, 56, 72;
+  --color-bg:       232 244 248;
+  --color-surface:  240 248 252;
+  --color-surface2: 245 250 253;
+  --color-surface3: 255 255 255;
+  --color-border:   192 216 232;
+  --color-accent:   0 136 170;
+  --color-accent2:  0 170 102;
+  --color-muted:    112 152 176;
+  --color-danger:   221 51 85;
+  --color-success:  0 170 102;
+  --color-text:     26 56 72;
   --glow-1: rgba(0, 136, 170, 0.04);
   --glow-2: rgba(0, 170, 102, 0.03);
 }
@@ -118,10 +118,10 @@
   .hljs { background: rgba(0,0,0,0.4) !important; }
 
   /* Ocean light theme overrides for text readability */
-  [data-theme="ocean"] .prose-invert { --tw-prose-body: rgb(26, 56, 72); --tw-prose-headings: rgb(10, 40, 56); }
-  [data-theme="ocean"] select { color: rgb(26, 56, 72); }
-  [data-theme="ocean"] textarea { color: rgb(26, 56, 72); }
-  [data-theme="ocean"] input { color: rgb(26, 56, 72); }
+  [data-theme="ocean"] .prose-invert { --tw-prose-body: rgb(var(--color-text)); --tw-prose-headings: rgb(var(--color-text)); }
+  [data-theme="ocean"] select { color: rgb(var(--color-text)); }
+  [data-theme="ocean"] textarea { color: rgb(var(--color-text)); }
+  [data-theme="ocean"] input { color: rgb(var(--color-text)); }
 }
 
 input[type="range"] { -webkit-appearance: none; height: 2px; background: rgb(var(--color-border)); border-radius: 1px; }

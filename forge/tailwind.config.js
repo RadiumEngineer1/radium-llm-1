@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+
+// Tailwind v3 color with CSS variable + alpha support
+const c = (name) => `rgb(var(${name}) / <alpha-value>)`
+
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
@@ -9,16 +13,16 @@ export default {
         body: ['DM Sans', 'sans-serif'],
       },
       colors: {
-        bg:       'rgb(var(--color-bg) / <alpha-value>)',
-        surface:  'rgb(var(--color-surface) / <alpha-value>)',
-        surface2: 'rgb(var(--color-surface2) / <alpha-value>)',
-        surface3: 'rgb(var(--color-surface3) / <alpha-value>)',
-        border:   'rgb(var(--color-border) / <alpha-value>)',
-        accent:   'rgb(var(--color-accent) / <alpha-value>)',
-        accent2:  'rgb(var(--color-accent2) / <alpha-value>)',
-        muted:    'rgb(var(--color-muted) / <alpha-value>)',
-        danger:   'rgb(var(--color-danger) / <alpha-value>)',
-        success:  'rgb(var(--color-success) / <alpha-value>)',
+        bg:       c('--color-bg'),
+        surface:  c('--color-surface'),
+        surface2: c('--color-surface2'),
+        surface3: c('--color-surface3'),
+        border:   c('--color-border'),
+        accent:   c('--color-accent'),
+        accent2:  c('--color-accent2'),
+        muted:    c('--color-muted'),
+        danger:   c('--color-danger'),
+        success:  c('--color-success'),
       },
     },
   },
