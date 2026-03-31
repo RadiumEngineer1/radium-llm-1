@@ -49,7 +49,12 @@ export interface StreamChatParams {
   signal?: AbortSignal;
 }
 
-export async function* streamChat(params: StreamChatParams): AsyncGenerator<string> {
+export interface StreamChunk {
+  content: string;
+  isThinking: boolean;
+}
+
+export async function* streamChat(params: StreamChatParams): AsyncGenerator<StreamChunk> {
   const { model, messages, signal, ...options } = params;
 
   const res = await fetch(`${BASE_URL}/api/chat`, {
@@ -89,8 +94,13 @@ export async function* streamChat(params: StreamChatParams): AsyncGenerator<stri
       if (!line.trim()) continue;
       try {
         const data = JSON.parse(line);
+        // Thinking tokens (Qwen3.5 sends thinking in a separate field)
+        if (data.message?.thinking && data.message.thinking !== '') {
+          yield { content: data.message.thinking, isThinking: true };
+        }
+        // Normal content tokens
         if (data.message?.content !== undefined && data.message.content !== '') {
-          yield data.message.content;
+          yield { content: data.message.content, isThinking: false };
         }
         if (data.done) return;
       } catch {

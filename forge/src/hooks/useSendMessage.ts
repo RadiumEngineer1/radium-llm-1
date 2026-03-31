@@ -63,7 +63,9 @@ export function useSendMessage() {
     setGenerating(true, controller);
     const assistantMsg = addMessage({ role: 'assistant', content: '' });
 
-    let fullText = '';
+    let thinkingText = '';
+    let responseText = '';
+    let wasThinking = false;
     try {
       for await (const chunk of streamChat({
         model: selectedModel,
@@ -74,9 +76,21 @@ export function useSendMessage() {
         repeat_penalty: params.repeat_penalty,
         signal: controller.signal,
       })) {
-        fullText += chunk;
-        updateLastAssistantMessage(fullText);
+        if (chunk.isThinking) {
+          thinkingText += chunk.content;
+          wasThinking = true;
+          // Show thinking state with a dimmed indicator
+          updateLastAssistantMessage(`<details><summary>Thinking...</summary>\n\n${thinkingText}\n\n</details>\n\n`);
+        } else {
+          responseText += chunk.content;
+          // Build final display: thinking block (collapsed) + response
+          const thinkingBlock = wasThinking
+            ? `<details><summary>Thinking</summary>\n\n${thinkingText}\n\n</details>\n\n`
+            : '';
+          updateLastAssistantMessage(thinkingBlock + responseText);
+        }
       }
+      const fullText = responseText;
 
       // Remove empty assistant message if nothing was generated
       if (!fullText.trim()) {
@@ -100,13 +114,13 @@ export function useSendMessage() {
       }
     } catch (err) {
       if ((err as Error).name === 'AbortError') {
-        if (!fullText) {
+        if (!responseText) {
           updateLastAssistantMessage('[Generation cancelled]');
         }
       } else {
         const msg = err instanceof Error ? err.message : 'Unknown error';
         addToast(`Generation failed: ${msg}`, 'error');
-        if (!fullText) {
+        if (!responseText) {
           updateLastAssistantMessage(`[Error: ${msg}]`);
         }
       }
