@@ -1,14 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-
-function withOpacity(varName) {
-  return ({ opacityValue }) => {
-    if (opacityValue !== undefined) {
-      return `rgba(var(${varName}), ${opacityValue})`
-    }
-    return `rgb(var(${varName}))`
-  }
-}
-
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
@@ -19,16 +9,16 @@ export default {
         body: ['DM Sans', 'sans-serif'],
       },
       colors: {
-        bg:       withOpacity('--color-bg'),
-        surface:  withOpacity('--color-surface'),
-        surface2: withOpacity('--color-surface2'),
-        surface3: withOpacity('--color-surface3'),
-        border:   withOpacity('--color-border'),
-        accent:   withOpacity('--color-accent'),
-        accent2:  withOpacity('--color-accent2'),
-        muted:    withOpacity('--color-muted'),
-        danger:   withOpacity('--color-danger'),
-        success:  withOpacity('--color-success'),
+        bg:       'rgb(var(--color-bg) / <alpha-value>)',
+        surface:  'rgb(var(--color-surface) / <alpha-value>)',
+        surface2: 'rgb(var(--color-surface2) / <alpha-value>)',
+        surface3: 'rgb(var(--color-surface3) / <alpha-value>)',
+        border:   'rgb(var(--color-border) / <alpha-value>)',
+        accent:   'rgb(var(--color-accent) / <alpha-value>)',
+        accent2:  'rgb(var(--color-accent2) / <alpha-value>)',
+        muted:    'rgb(var(--color-muted) / <alpha-value>)',
+        danger:   'rgb(var(--color-danger) / <alpha-value>)',
+        success:  'rgb(var(--color-success) / <alpha-value>)',
       },
     },
   },
