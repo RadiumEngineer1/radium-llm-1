@@ -6,7 +6,7 @@ export default function ThemeSelector() {
   return (
     <div className="flex items-center gap-2">
       <span className="text-[9px] text-muted uppercase tracking-wider">Theme</span>
-      <div className="flex flex-wrap gap-1.5 ml-auto">
+      <div className="theme-picker-dots flex flex-wrap gap-1.5 ml-auto">
         {THEMES.map(t => (
           <button
             key={t.id}

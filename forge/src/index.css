@@ -122,19 +122,25 @@
 }
 
 [data-theme="terminal-inverted"] {
-  --hex-bg:       #0d000d;
-  --hex-surface:  #120812;
-  --hex-surface2: #1a0e1a;
-  --hex-surface3: #221422;
-  --hex-border:   #2a1a2a;
-  --hex-accent:   #ff33ff;
-  --hex-accent2:  #00aaff;
-  --hex-muted:    #663366;
-  --hex-danger:   #33ffff;
-  --hex-success:  #ff33ff;
-  --hex-text:     #ff33ff;
-  --glow-1: rgba(255, 51, 255, 0.06);
-  --glow-2: rgba(0, 170, 255, 0.03);
+  --hex-bg:       #000000;
+  --hex-surface:  #050505;
+  --hex-surface2: #0a0a0a;
+  --hex-surface3: #121212;
+  --hex-border:   #1a1a1a;
+  --hex-accent:   #33ff33;
+  --hex-accent2:  #ffaa00;
+  --hex-muted:    #336633;
+  --hex-danger:   #ff3333;
+  --hex-success:  #33ff33;
+  --hex-text:     #33ff33;
+  --glow-1: rgba(51, 255, 51, 0.06);
+  --glow-2: rgba(255, 170, 0, 0.03);
+}
+[data-theme="terminal-inverted"] body {
+  filter: hue-rotate(180deg) brightness(1.3);
+}
+[data-theme="terminal-inverted"] .theme-picker-dots {
+  filter: hue-rotate(-180deg) brightness(0.77);
 }
 
 [data-theme="msdos"] {
