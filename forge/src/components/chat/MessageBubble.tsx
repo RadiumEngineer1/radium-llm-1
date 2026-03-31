@@ -4,6 +4,7 @@ import rehypeHighlight from 'rehype-highlight';
 import type { ChatMessage } from '../../types';
 import { useChatStore } from '../../store/chatStore';
 import { useModelStore } from '../../store/modelStore';
+import { useThemeStore } from '../../store/themeStore';
 import ThinkingBlock from './ThinkingBlock';
 import RagSources from './RagSources';
 import IconButton from '../ui/IconButton';
@@ -18,6 +19,7 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
   const isLastAssistant = !isUser && messages[messages.length - 1]?.id === message.id;
   const isStreaming = isLastAssistant && isGenerating;
   const isAbom = selectedModel.startsWith('abomination');
+  const theme = useThemeStore(s => s.theme);
   const [copied, setCopied] = useState(false);
   const isThinkingPhase = isStreaming && !message.content && !!message.thinking;
 
@@ -28,9 +30,14 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
   };
 
   if (isUser) {
+    const msdos = theme === 'msdos';
     return (
       <div className="flex justify-end mb-3">
-        <div className={`max-w-[75%] rounded-xl rounded-br-sm px-4 py-2.5 text-sm leading-relaxed ${isAbom ? 'bg-accent/80 text-white border border-accent/30' : 'bg-accent text-white'}`}>
+        <div className={`max-w-[75%] rounded-xl rounded-br-sm px-4 py-2.5 text-sm leading-relaxed
+          ${msdos ? 'bg-transparent border border-white text-white'
+          : isAbom ? 'bg-accent text-white border border-accent'
+          : 'bg-accent text-white'}`}
+        >
           <p className="whitespace-pre-wrap">{message.content}</p>
         </div>
       </div>

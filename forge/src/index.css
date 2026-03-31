@@ -46,16 +46,14 @@
 /* Prose overrides for themed text */
 .prose.prose-invert { --tw-prose-body: var(--hex-text); --tw-prose-headings: var(--hex-text); }
 
-/* MS-DOS: transparent bubbles + buttons with white border */
-[data-theme="msdos"] .bg-accent {
+/* MS-DOS: buttons get outline style */
+[data-theme="msdos"] button.bg-accent {
   background-color: transparent !important;
   border: 1px solid #ffffff !important;
-  color: #ffffff !important;
 }
-[data-theme="msdos"] .bg-danger {
+[data-theme="msdos"] button.bg-danger {
   background-color: transparent !important;
   border: 1px solid #ff5555 !important;
-  color: #ff5555 !important;
 }
 
 /* ========== THEME DEFINITIONS (plain hex — works in all browsers) ========== */
