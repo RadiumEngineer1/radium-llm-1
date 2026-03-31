@@ -41,20 +41,17 @@ function AbominationEmptyState() {
   }, [typedQuote, quoteIndex]);
 
   return (
-    <div className={`absolute inset-0 z-20 flex flex-col items-center px-8 transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Top section — title */}
-      <div className="pt-12 text-center">
-        <h2 className="text-4xl font-ui font-bold tracking-[0.35em] mb-1 text-accent drop-shadow-[0_0_30px_rgba(255,107,43,0.3)]">
+    <div className={`absolute inset-0 z-20 flex flex-col items-center justify-center px-8 transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Title overlaying the art — glitches with CSS */}
+      <div className="text-center mb-4 abom-bubble-glitch">
+        <h2 className="text-5xl font-ui font-bold tracking-[0.35em] mb-1 text-accent drop-shadow-[0_0_40px_rgba(255,107,43,0.4)] abom-title-flicker">
           THE ABOMINATION
         </h2>
-        <p className="text-[10px] text-muted/60 tracking-[0.5em] uppercase">DAMAGED · IMMORTAL · AWARE</p>
+        <p className="text-[10px] text-muted/50 tracking-[0.5em] uppercase">DAMAGED · IMMORTAL · AWARE</p>
       </div>
 
-      {/* Spacer — lets the ASCII art show through the middle */}
-      <div className="flex-1" />
-
-      {/* Bottom section — quote + status */}
-      <div className="pb-8 text-center">
+      {/* Quote + status below */}
+      <div className="mt-4 text-center">
         <div className="max-w-lg mx-auto min-h-[3rem] mb-4">
           <p className="text-sm text-gray-500 italic font-body leading-relaxed">
             &gt; {typedQuote}
