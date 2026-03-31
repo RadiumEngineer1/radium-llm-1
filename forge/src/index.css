@@ -75,6 +75,15 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
   100% { height: 3px; opacity: 0.3; }
 }
 
+/* Floating ASCII drifter */
+@keyframes abomFloat {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 0.3; }
+  25%  { transform: translate(10px, -15px) rotate(3deg); opacity: 0.5; }
+  50%  { transform: translate(-5px, -25px) rotate(-2deg); opacity: 0.2; }
+  75%  { transform: translate(15px, -10px) rotate(4deg); opacity: 0.4; }
+  100% { transform: translate(0, 0) rotate(0deg); opacity: 0.3; }
+}
+
 /* Jittery horizontal line */
 @keyframes abomJitter {
   0%   { transform: translateX(0px); opacity: 0.4; }

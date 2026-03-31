@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 const ASCII_ART = [
   '░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░',
@@ -46,17 +46,47 @@ interface Props {
 }
 
 export default function AbominationBackground({ hasMessages }: Props) {
-  // 0=none, 1=shift, 2=corrupt, 3=flicker, 4=HARD SCARE, 5=screen tear
   const [glitchType, setGlitchType] = useState(0);
   const [corruptLines, setCorruptLines] = useState<number[]>([]);
   const [scareMsg, setScareMsg] = useState('');
   const [tearOffset, setTearOffset] = useState(0);
+  const [drift, setDrift] = useState({ x: 0, y: 0 });
+  const [fullscreenFlash, setFullscreenFlash] = useState(false);
+  const driftRef = useRef({ x: 0, y: 0, vx: 0.3, vy: 0.2 });
 
   const corruptString = useCallback((s: string) => {
     const chars = '█▓▒░╔╗╚╝║═┤├┼─│¦▌▐▀▄█▓▒░';
     return s.split('').map(c =>
       Math.random() > 0.3 ? chars[Math.floor(Math.random() * chars.length)] : c
     ).join('');
+  }, []);
+
+  // Slow drift of the ASCII art around the screen
+  useEffect(() => {
+    const animate = () => {
+      const d = driftRef.current;
+      d.x += d.vx;
+      d.y += d.vy;
+      if (d.x > 40 || d.x < -40) d.vx *= -1;
+      if (d.y > 25 || d.y < -25) d.vy *= -1;
+      // Random direction changes
+      if (Math.random() < 0.005) d.vx = (Math.random() - 0.5) * 0.8;
+      if (Math.random() < 0.005) d.vy = (Math.random() - 0.5) * 0.6;
+      setDrift({ x: d.x, y: d.y });
+    };
+    const interval = setInterval(animate, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Occasional fullscreen flash of the ASCII at full opacity
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (Math.random() < 0.15) {
+        setFullscreenFlash(true);
+        setTimeout(() => setFullscreenFlash(false), 80 + Math.random() * 120);
+      }
+    }, 5000 + Math.random() * 8000);
+    return () => clearInterval(interval);
   }, []);
 
   // Main glitch engine
@@ -161,8 +191,17 @@ export default function AbominationBackground({ hasMessages }: Props) {
         </div>
       )}
 
-      {/* The ASCII art */}
-      <div className="relative z-0">
+      {/* Fullscreen art flash */}
+      {fullscreenFlash && hasMessages && (
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/80">
+          <pre className="font-mono text-[14px] leading-[1.3] text-danger/80 animate-pulse">
+            {ASCII_ART.join('\n')}
+          </pre>
+        </div>
+      )}
+
+      {/* The ASCII art — drifts around */}
+      <div className="relative z-0" style={{ transform: `translate(${drift.x}px, ${drift.y}px)` }}>
         <pre className={`font-mono text-[11px] leading-[1.3] transition-all duration-[50ms]
           ${glitchType === 0 ? 'text-accent/40' : ''}
           ${glitchType === 1 ? 'text-accent/60 translate-x-[5px] -translate-y-[2px] skew-x-[2deg]' : ''}
