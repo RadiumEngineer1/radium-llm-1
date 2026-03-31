@@ -46,12 +46,17 @@ export function useSendMessage() {
     }
 
     // Build message history
-    const systemMsg = { role: 'system', content: systemPrompt + ragContext };
+    const systemContent = systemPrompt + ragContext;
     const history = messages
       .filter(m => m.role !== 'system')
       .slice(-40)
       .map(m => ({ role: m.role, content: m.content }));
-    const allMessages = [systemMsg, ...history, { role: 'user', content: userText.trim() }];
+    const allMessages = [
+      // Only include system message if there's content — otherwise let the Modelfile's SYSTEM take over
+      ...(systemContent.trim() ? [{ role: 'system', content: systemContent }] : []),
+      ...history,
+      { role: 'user', content: userText.trim() },
+    ];
 
     // Start streaming
     const controller = new AbortController();
