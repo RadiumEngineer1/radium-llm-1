@@ -14,6 +14,7 @@ export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant' | 'system';
   content: string;
+  thinking?: string;
   ragSources?: RagChunk[];
   timestamp: number;
 }

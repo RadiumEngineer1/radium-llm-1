@@ -8,6 +8,7 @@ interface ChatStore {
   abortController: AbortController | null;
   addMessage: (msg: Omit<ChatMessage, 'id' | 'timestamp'>) => ChatMessage;
   updateLastAssistantMessage: (content: string) => void;
+  updateLastAssistantThinking: (thinking: string) => void;
   clearChat: () => void;
   setGenerating: (v: boolean, abort?: AbortController) => void;
   cancelGeneration: () => void;
@@ -34,6 +35,19 @@ export const useChatStore = create<ChatStore>()((set, get) => ({
       for (let i = msgs.length - 1; i >= 0; i--) {
         if (msgs[i].role === 'assistant') {
           msgs[i] = { ...msgs[i], content }
+          break
+        }
+      }
+      return { messages: msgs }
+    })
+  },
+
+  updateLastAssistantThinking: (thinking) => {
+    set((state) => {
+      const msgs = [...state.messages]
+      for (let i = msgs.length - 1; i >= 0; i--) {
+        if (msgs[i].role === 'assistant') {
+          msgs[i] = { ...msgs[i], thinking }
           break
         }
       }

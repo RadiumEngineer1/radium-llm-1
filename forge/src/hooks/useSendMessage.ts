@@ -10,6 +10,7 @@ import type { RagChunk } from '../types';
 export function useSendMessage() {
   const addMessage = useChatStore(s => s.addMessage);
   const updateLastAssistantMessage = useChatStore(s => s.updateLastAssistantMessage);
+  const updateLastAssistantThinking = useChatStore(s => s.updateLastAssistantThinking);
   const setGenerating = useChatStore(s => s.setGenerating);
   const messages = useChatStore(s => s.messages);
   const selectedModel = useModelStore(s => s.selectedModel);
@@ -65,7 +66,6 @@ export function useSendMessage() {
 
     let thinkingText = '';
     let responseText = '';
-    let wasThinking = false;
     try {
       for await (const chunk of streamChat({
         model: selectedModel,
@@ -78,16 +78,10 @@ export function useSendMessage() {
       })) {
         if (chunk.isThinking) {
           thinkingText += chunk.content;
-          wasThinking = true;
-          // Show thinking state with a dimmed indicator
-          updateLastAssistantMessage(`<details><summary>Thinking...</summary>\n\n${thinkingText}\n\n</details>\n\n`);
+          updateLastAssistantThinking(thinkingText);
         } else {
           responseText += chunk.content;
-          // Build final display: thinking block (collapsed) + response
-          const thinkingBlock = wasThinking
-            ? `<details><summary>Thinking</summary>\n\n${thinkingText}\n\n</details>\n\n`
-            : '';
-          updateLastAssistantMessage(thinkingBlock + responseText);
+          updateLastAssistantMessage(responseText);
         }
       }
       const fullText = responseText;
