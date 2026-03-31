@@ -86,12 +86,17 @@ export function useSendMessage() {
       }
       const fullText = responseText;
 
-      // Remove empty assistant message if nothing was generated
+      // Handle empty response — but keep the message if thinking was captured
       if (!fullText.trim()) {
-        useChatStore.setState(state => ({
-          messages: state.messages.filter(m => m.id !== assistantMsg.id),
-        }));
-        addToast('Model returned an empty response. Try again or switch models.', 'error');
+        if (thinkingText.trim()) {
+          // Model thought but produced no visible response — show a note
+          updateLastAssistantMessage('*[The model thought but produced no visible response. Try again.]*');
+        } else {
+          useChatStore.setState(state => ({
+            messages: state.messages.filter(m => m.id !== assistantMsg.id),
+          }));
+          addToast('Model returned an empty response. Try again or switch models.', 'error');
+        }
         return;
       }
 

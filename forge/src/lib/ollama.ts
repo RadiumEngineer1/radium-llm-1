@@ -82,6 +82,23 @@ export async function* streamChat(params: StreamChatParams): AsyncGenerator<Stre
   const decoder = new TextDecoder();
   let buffer = '';
 
+  function* processLines(lines: string[]) {
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      try {
+        const data = JSON.parse(line);
+        if (data.message?.thinking && data.message.thinking !== '') {
+          yield { content: data.message.thinking, isThinking: true } as StreamChunk;
+        }
+        if (data.message?.content !== undefined && data.message.content !== '') {
+          yield { content: data.message.content, isThinking: false } as StreamChunk;
+        }
+      } catch {
+        // skip malformed lines
+      }
+    }
+  }
+
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
@@ -89,23 +106,11 @@ export async function* streamChat(params: StreamChatParams): AsyncGenerator<Stre
     buffer += decoder.decode(value, { stream: true });
     const lines = buffer.split('\n');
     buffer = lines.pop() ?? '';
+    yield* processLines(lines);
+  }
 
-    for (const line of lines) {
-      if (!line.trim()) continue;
-      try {
-        const data = JSON.parse(line);
-        // Thinking tokens (Qwen3.5 sends thinking in a separate field)
-        if (data.message?.thinking && data.message.thinking !== '') {
-          yield { content: data.message.thinking, isThinking: true };
-        }
-        // Normal content tokens
-        if (data.message?.content !== undefined && data.message.content !== '') {
-          yield { content: data.message.content, isThinking: false };
-        }
-        if (data.done) return;
-      } catch {
-        // skip malformed lines
-      }
-    }
+  // Flush remaining buffer — critical for catching final content chunks
+  if (buffer.trim()) {
+    yield* processLines([buffer]);
   }
 }
