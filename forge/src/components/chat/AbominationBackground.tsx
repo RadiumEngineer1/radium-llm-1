@@ -80,7 +80,7 @@ export default function AbominationBackground({ hasMessages }: Props) {
   }, []);
 
   return (
-    <div className={`absolute inset-0 flex items-center justify-center pointer-events-none select-none transition-opacity duration-1000 ${hasMessages ? 'opacity-[0.25]' : 'opacity-100'}`}>
+    <div className={`fixed inset-0 flex items-center justify-center pointer-events-none select-none transition-opacity duration-1000 ${hasMessages ? 'opacity-[0.25]' : 'opacity-100'}`} style={{ left: '280px' }}>
       {/* CRT scanlines */}
       <div className="absolute inset-0 z-10 abom-scanlines" />
 
