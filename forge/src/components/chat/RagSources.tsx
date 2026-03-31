@@ -9,7 +9,7 @@ export default function RagSources({ chunks }: { chunks: RagChunk[] }) {
     <div className="mt-3 border-t border-border pt-2">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-[10px] text-muted hover:text-gray-300 transition-colors"
+        className="flex items-center gap-1.5 text-[10px] text-muted hover:text-[rgb(var(--color-text))] transition-colors"
       >
         <Search size={10} />
         <span>{chunks.length} RETRIEVED CHUNK{chunks.length !== 1 ? 'S' : ''}</span>
@@ -23,7 +23,7 @@ export default function RagSources({ chunks }: { chunks: RagChunk[] }) {
                 <span className="text-[10px] font-mono text-accent">{chunk.source}</span>
                 <span className="text-[10px] text-muted">score: {chunk.score.toFixed(3)}</span>
               </div>
-              <p className="text-[11px] text-gray-400 leading-relaxed">
+              <p className="text-[11px] text-muted leading-relaxed">
                 {chunk.text.slice(0, 300)}{chunk.text.length > 300 ? '...' : ''}
               </p>
             </div>

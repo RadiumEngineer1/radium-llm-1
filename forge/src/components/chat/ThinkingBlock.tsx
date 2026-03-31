@@ -34,7 +34,7 @@ export default function ThinkingBlock({ thinking, isStreaming }: ThinkingBlockPr
           <ChevronDown size={12} className={`text-muted ml-auto transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
         {open && (
-          <div className="mt-1 px-3 py-2 rounded-lg bg-black/20 border border-border/50 max-h-[400px] overflow-y-auto">
+          <div className="mt-1 px-3 py-2 rounded-lg bg-bg/20 border border-border/50 max-h-[400px] overflow-y-auto">
             <pre className="text-[11px] text-muted leading-relaxed whitespace-pre-wrap font-mono">{thinking}{isStreaming && <span className="inline-block w-1.5 h-3 bg-accent2 ml-0.5 animate-pulse" />}</pre>
           </div>
         )}
@@ -46,7 +46,7 @@ export default function ThinkingBlock({ thinking, isStreaming }: ThinkingBlockPr
   return (
     <div className="mb-3 abom-bubble-glitch">
       <button onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg bg-black/40 border border-danger/20 hover:border-danger/40 transition-colors">
+        className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg bg-bg/40 border border-danger/20 hover:border-danger/40 transition-colors">
         <Skull size={14} className={`text-danger ${isStreaming ? 'animate-pulse' : ''}`} />
         <span className="text-xs font-mono font-medium text-danger/70">
           {isStreaming ? corruptLabel : '[ THOUGHT PROCESS ARCHIVED ]'}
@@ -60,7 +60,7 @@ export default function ThinkingBlock({ thinking, isStreaming }: ThinkingBlockPr
         <ChevronDown size={12} className={`text-danger/40 ml-auto transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
-        <div className="mt-1 px-3 py-2 rounded-lg bg-black/30 border border-danger/10 max-h-[400px] overflow-y-auto">
+        <div className="mt-1 px-3 py-2 rounded-lg bg-bg/30 border border-danger/10 max-h-[400px] overflow-y-auto">
           <pre className="text-[10px] text-muted/60 leading-relaxed whitespace-pre-wrap font-mono">{thinking}{isStreaming && <span className="inline-block w-2 h-3 bg-danger/50 ml-0.5 animate-pulse" />}</pre>
         </div>
       )}

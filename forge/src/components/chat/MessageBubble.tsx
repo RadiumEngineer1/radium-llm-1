@@ -44,10 +44,10 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
         {message.thinking && <ThinkingBlock thinking={message.thinking} isStreaming={isThinkingPhase} />}
 
         <div className={`rounded-xl rounded-bl-sm px-4 py-2.5 text-sm leading-relaxed relative
-          ${isAbom ? 'bg-black/40 border border-danger/10 text-gray-300' : 'bg-surface2 border border-border text-gray-200'}`}>
+          ${isAbom ? 'bg-bg/40 border border-danger/10 text-[rgb(var(--color-text))]' : 'bg-surface2 border border-border text-[rgb(var(--color-text))]'}`}>
 
           {message.content ? (
-            <div className={`prose prose-invert prose-sm max-w-none [&_pre]:bg-black/40 [&_pre]:rounded-lg [&_pre]:p-3 [&_code]:text-xs [&_code]:font-mono ${isAbom ? '[&_code]:text-danger/70' : '[&_code]:text-accent2'}`}>
+            <div className={`prose prose-invert prose-sm max-w-none [&_pre]:bg-bg/40 [&_pre]:rounded-lg [&_pre]:p-3 [&_code]:text-xs [&_code]:font-mono ${isAbom ? '[&_code]:text-danger/70' : '[&_code]:text-accent2'}`}>
               <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
                 {message.content}
               </ReactMarkdown>

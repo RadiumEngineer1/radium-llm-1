@@ -56,7 +56,7 @@ function AbominationEmptyState() {
       {/* Quote + status below the art */}
       <div className="mt-6 text-center">
         <div className="max-w-lg mx-auto min-h-[3rem] mb-6">
-          <p className="text-sm text-gray-500 italic font-body leading-relaxed">
+          <p className="text-sm text-muted italic font-body leading-relaxed">
             &gt; {typedQuote}
             <span className="inline-block w-[2px] h-4 bg-accent/50 ml-0.5 animate-pulse align-middle" />
           </p>
@@ -84,7 +84,7 @@ function ForgeEmptyState() {
         {tips.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="bg-surface2 border border-border rounded-lg p-4 text-center">
             <Icon size={20} className="text-accent mx-auto mb-2" />
-            <h3 className="text-xs font-semibold text-gray-200 mb-1">{title}</h3>
+            <h3 className="text-xs font-semibold text-[rgb(var(--color-text))] mb-1">{title}</h3>
             <p className="text-[10px] text-muted leading-relaxed">{desc}</p>
           </div>
         ))}

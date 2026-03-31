@@ -14,7 +14,7 @@ export default function DocList() {
           key={doc.id}
           className="flex items-center gap-2 bg-surface2 rounded px-2 py-1.5 animate-[slideIn_0.2s_ease-out]"
         >
-          <span className="text-[11px] text-gray-300 truncate flex-1" title={doc.name}>
+          <span className="text-[11px] text-[rgb(var(--color-text))] truncate flex-1" title={doc.name}>
             {doc.name}
           </span>
           <span className="text-[10px] text-muted font-mono shrink-0">

@@ -53,7 +53,7 @@ export default function App() {
   }, [isGenerating, loadModels]);
 
   return (
-    <div className={`flex h-screen w-screen bg-bg text-gray-200 ${isAbom ? 'abom-wingdings-cycle' : ''}`}>
+    <div className={`flex h-screen w-screen bg-bg ${isAbom ? 'abom-wingdings-cycle' : ''}`}>
       <Sidebar>
         <ThemeSelector />
         <ModelSelector />
