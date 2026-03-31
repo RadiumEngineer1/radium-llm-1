@@ -10,8 +10,13 @@ interface SliderProps {
 
 export default function Slider({ label, value, min, max, step, onChange, formatValue }: SliderProps) {
   return (
-    <div className="flex items-center gap-3 mb-2">
-      <label className="text-xs text-muted w-20 shrink-0">{label}</label>
+    <div className="mb-2">
+      <div className="flex justify-between mb-0.5">
+        <label className="text-[10px] text-muted">{label}</label>
+        <span className="text-[10px] font-mono text-accent">
+          {formatValue ? formatValue(value) : value}
+        </span>
+      </div>
       <input
         type="range"
         min={min}
@@ -19,11 +24,8 @@ export default function Slider({ label, value, min, max, step, onChange, formatV
         step={step}
         value={value}
         onChange={e => onChange(Number(e.target.value))}
-        className="flex-1"
+        className="w-full"
       />
-      <span className="text-xs font-mono text-accent w-12 text-right">
-        {formatValue ? formatValue(value) : value}
-      </span>
     </div>
   );
 }
