@@ -41,7 +41,7 @@ function AbominationEmptyState() {
   }, [typedQuote, quoteIndex]);
 
   return (
-    <div className={`absolute inset-0 z-20 flex flex-col items-center justify-end pb-28 px-8 transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`absolute inset-0 z-20 flex flex-col items-center justify-center px-8 transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
       {/* Title */}
       <h2 className="text-4xl font-ui font-bold tracking-[0.35em] mb-1 text-accent drop-shadow-[0_0_30px_rgba(255,107,43,0.3)]">
         THE ABOMINATION
