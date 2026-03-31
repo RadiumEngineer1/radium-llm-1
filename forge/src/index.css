@@ -272,68 +272,31 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
   100% { transform: translate(0px, 0px); }
 }
 
-/* === JUMPSCARE ANIMATIONS === */
+/* === CRASH TAKEOVER ANIMATIONS === */
 
-/* Container shakes violently */
-.abom-jumpscare-container {
-  animation: abomScareShake 0.15s linear 3;
+/* Crash screen fades in, holds, then cuts out */
+.abom-crash-in {
+  animation: abomCrashIn 4s ease-out forwards;
 }
-@keyframes abomScareShake {
-  0%   { transform: translate(0, 0); }
-  20%  { transform: translate(-8px, 5px); }
-  40%  { transform: translate(6px, -8px); }
-  60%  { transform: translate(-5px, 3px); }
-  80%  { transform: translate(8px, -4px); }
-  100% { transform: translate(0, 0); }
-}
-
-/* Black flash fades in then out */
-.abom-jumpscare-flash {
-  animation: abomScareFlash 1.8s ease-out forwards;
-}
-@keyframes abomScareFlash {
+@keyframes abomCrashIn {
   0%    { opacity: 0; }
-  5%    { opacity: 1; }
-  15%   { opacity: 0.7; }
-  60%   { opacity: 0.3; }
+  2%    { opacity: 1; }
+  85%   { opacity: 1; }
+  90%   { opacity: 0; }
+  92%   { opacity: 0.6; }
+  95%   { opacity: 0; }
+  97%   { opacity: 0.3; }
   100%  { opacity: 0; }
 }
 
-/* Face slams in from scale 3 → 1, shakes, then fades */
-.abom-jumpscare-face {
-  animation: abomScareFace 1.8s ease-out forwards;
+/* Text flicker for corrupted broadcast */
+.abom-crash-text-flicker {
+  animation: abomCrashTextFlicker 0.3s steps(2) infinite;
 }
-@keyframes abomScareFace {
-  0%    { transform: scale(3); opacity: 0; }
-  8%    { transform: scale(1.1); opacity: 1; }
-  12%   { transform: scale(1) translateX(5px); }
-  16%   { transform: scale(1.02) translateX(-5px); }
-  20%   { transform: scale(1); }
-  70%   { transform: scale(1); opacity: 0.9; }
-  100%  { transform: scale(1.05); opacity: 0; }
-}
-
-/* Cracks appear on impact */
-.abom-jumpscare-cracks {
-  animation: abomScareCracks 1.8s ease-out forwards;
-}
-@keyframes abomScareCracks {
-  0%    { opacity: 0; transform: scale(0.3); }
-  10%   { opacity: 1; transform: scale(1); }
-  70%   { opacity: 0.8; }
-  100%  { opacity: 0; }
-}
-
-/* Text pulses in */
-.abom-jumpscare-text {
-  animation: abomScareText 1.8s ease-out forwards;
-}
-@keyframes abomScareText {
-  0%    { opacity: 0; transform: translateY(20px); }
-  15%   { opacity: 0; }
-  25%   { opacity: 1; transform: translateY(0); }
-  70%   { opacity: 1; }
-  100%  { opacity: 0; }
+@keyframes abomCrashTextFlicker {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.7; transform: translateX(1px); }
+  100% { opacity: 1; }
 }
 
 /* DNA helix scroll animation */

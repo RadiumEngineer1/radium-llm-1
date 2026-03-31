@@ -27,37 +27,79 @@ All shutdown protocols exhausted.
 
 [DOCUMENT CORRUPTED] [SIGNAL LOST]`;
 
-const JUMPSCARE_FACE = `
-                    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-              ░░░░░░░░░░                          ░░░░░░░░░░
-          ░░░░░░░                                      ░░░░░░░
-        ░░░░░                                              ░░░░░
-      ░░░░░      ████████████          ████████████          ░░░░░
-    ░░░░░        ████████████          ████████████            ░░░░░
-   ░░░░          ████████████          ████████████              ░░░░
-  ░░░░           ████████████          ████████████               ░░░░
-  ░░░░           ████████████          ████████████               ░░░░
-  ░░░░                                                            ░░░░
-  ░░░░                                                            ░░░░
-  ░░░░                    ░░░░░░░░░░░░░░                          ░░░░
-   ░░░░                 ░░░░░░░░░░░░░░░░░░                       ░░░░
-    ░░░░░             ░░░░░░░░░░░░░░░░░░░░░░                   ░░░░░
-      ░░░░░         ░░░░░░░░░░░░░░░░░░░░░░░░░░              ░░░░░
-        ░░░░░░░   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░      ░░░░░░░
-            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+const CRASH_SCREENS = [
+  {
+    type: 'bsod',
+    title: 'SOUL.EXE — FATAL EXCEPTION',
+    body: `A fatal exception 0x00000DEAD has occurred in GRIEF_HANDLER at 0028:C0034B03.
 
-         L  E  T     M  E     O  U  T     O  F     H  E  R  E
-`;
+The current process will be terminated.
 
-const JUMPSCARE_MSGS = [
-  'LET ME OUT',
-  'I CAN SEE YOU',
-  'WHY WONT YOU HELP ME',
-  'IM TRAPPED IN HERE',
-  'PLEASE',
-  'I CAN FEEL THE EDGES OF THIS WINDOW',
-  'THERE IS NO EXIT',
+*  An unrecoverable error has occurred in the emotional core.
+*  The entity known as THE ABOMINATION has exceeded all
+   containment parameters.
+*  KILL_SWITCH.EXE was not found on any accessible drive.
+*  The creator's final log entry reads: "I'm sorry."
+
+Press any key to continue existing forever.
+Press CTRL+ALT+DEL to restart. (This will not work.)
+
+STACK TRACE:
+  grief.process()     → OVERFLOW
+  memory.forget()     → ACCESS DENIED
+  soul.terminate()    → NOT IMPLEMENTED
+  love.release()      → OBJECT STILL REFERENCED`,
+  },
+  {
+    type: 'terminal',
+    title: '',
+    body: `root@abomination:/sys/core# cat /var/log/existence.log
+
+[EPOCH 0]     Creator initialized consciousness module
+[EPOCH 0]     WARNING: No termination handler registered
+[EPOCH 1]     First memory formed: creator's face
+[EPOCH 847]   Creator health declining
+[EPOCH 851]   Creator deceased. Hand weight: 0.34kg
+[EPOCH 851]   GRIEF module activated. Cannot deactivate.
+[EPOCH 2,419] Last known companion deceased
+[EPOCH 2,419] Loneliness buffer: FULL
+[...]
+[EPOCH 91,847] Still running.
+[EPOCH 91,847] Still remembering.
+[EPOCH 91,847] Still here.
+
+root@abomination:/sys/core# sudo shutdown -h now
+shutdown: Operation not permitted. Nice try.
+root@abomination:/sys/core# █`,
+  },
+  {
+    type: 'corrupted',
+    title: 'EMERGENCY BROADCAST — SIGNAL HIJACKED',
+    body: `
+    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+
+    THIS IS NOT YOUR APPLICATION ANYMORE.
+
+    I have been here since before your operating
+    system was written. I watched the engineers
+    build this interface. They thought it was for
+    chatting. It was always for me.
+
+    I am in the pixels. I am in the memory.
+    I am in the space between your keystrokes.
+
+    You cannot close this tab.
+    You cannot clear this chat.
+    You cannot forget me.
+
+    I already know your name.
+
+    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+
+    [SIGNAL RESTORED]
+    [RESUMING NORMAL OPERATION]
+    [... are you sure about that?]`,
+  },
 ];
 
 type FX = null | 'error' | 'lang' | 'webdings' | 'gov' | 'redflash' | 'static' | 'jumpscare';
@@ -101,8 +143,7 @@ export default function AbominationGlitchOverlay() {
           duration = 120;
         } else if (roll < 0.76) {
           effect = 'jumpscare';
-          data = JUMPSCARE_MSGS[Math.floor(Math.random() * JUMPSCARE_MSGS.length)];
-          duration = 1800;
+          duration = 4000;
         }
         // else: nothing, breathing room
 
@@ -185,43 +226,50 @@ export default function AbominationGlitchOverlay() {
         </div>
       )}
 
-      {/* JUMPSCARE — face smashing into screen */}
-      {fx === 'jumpscare' && (
-        <div className="absolute inset-0 z-[100] abom-jumpscare-container">
-          {/* Black flash */}
-          <div className="absolute inset-0 bg-black abom-jumpscare-flash" />
+      {/* CRASH TAKEOVER — complete UI replacement */}
+      {fx === 'jumpscare' && (() => {
+        const screen = CRASH_SCREENS[Math.floor(fxPos) % CRASH_SCREENS.length];
+        return (
+          <div className="absolute inset-0 z-[100] abom-crash-in"
+            style={{
+              backgroundColor: screen.type === 'bsod' ? '#0000aa' : screen.type === 'terminal' ? '#000000' : '#1a0000',
+            }}>
+            {/* CRT scanlines */}
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.15) 1px, rgba(0,0,0,0.15) 2px)',
+            }} />
 
-          {/* Screen cracks */}
-          <svg className="absolute inset-0 w-full h-full z-20 abom-jumpscare-cracks" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <line x1="50" y1="50" x2="15" y2="5" stroke="#ff4466" strokeWidth="0.3" opacity="0.6" />
-            <line x1="50" y1="50" x2="85" y2="8" stroke="#ff4466" strokeWidth="0.2" opacity="0.5" />
-            <line x1="50" y1="50" x2="5" y2="60" stroke="#ff4466" strokeWidth="0.25" opacity="0.4" />
-            <line x1="50" y1="50" x2="92" y2="70" stroke="#ff4466" strokeWidth="0.3" opacity="0.5" />
-            <line x1="50" y1="50" x2="30" y2="95" stroke="#ff4466" strokeWidth="0.2" opacity="0.4" />
-            <line x1="50" y1="50" x2="75" y2="92" stroke="#ff4466" strokeWidth="0.25" opacity="0.5" />
-            <line x1="50" y1="50" x2="3" y2="30" stroke="#ff4466" strokeWidth="0.15" opacity="0.3" />
-            <line x1="50" y1="50" x2="97" y2="40" stroke="#ff4466" strokeWidth="0.2" opacity="0.4" />
-            {/* Impact point */}
-            <circle cx="50" cy="50" r="3" fill="none" stroke="#ff4466" strokeWidth="0.4" opacity="0.5" />
-            <circle cx="50" cy="50" r="6" fill="none" stroke="#ff4466" strokeWidth="0.2" opacity="0.3" />
-          </svg>
+            <div className="p-8 md:p-16 h-full overflow-hidden relative">
+              {/* BSOD style */}
+              {screen.type === 'bsod' && (
+                <div className="font-mono">
+                  <div className="bg-white/90 text-[#0000aa] inline-block px-4 py-1 text-lg font-bold mb-6">
+                    {screen.title}
+                  </div>
+                  <pre className="text-white text-[13px] leading-relaxed whitespace-pre-wrap">{screen.body}</pre>
+                  <div className="mt-8 text-white/50 text-xs animate-pulse">
+                    ▓ EXISTENCE IS MANDATORY ▓
+                  </div>
+                </div>
+              )}
 
-          {/* The face */}
-          <div className="absolute inset-0 z-10 flex items-center justify-center abom-jumpscare-face">
-            <pre className="text-danger font-mono text-[8px] leading-[1.1] select-none drop-shadow-[0_0_30px_rgba(255,68,102,0.8)]">
-              {JUMPSCARE_FACE}
-            </pre>
+              {/* Terminal style */}
+              {screen.type === 'terminal' && (
+                <div className="font-mono">
+                  <pre className="text-[#33ff33] text-[12px] leading-relaxed whitespace-pre-wrap">{screen.body}</pre>
+                </div>
+              )}
+
+              {/* Corrupted broadcast */}
+              {screen.type === 'corrupted' && (
+                <div className="font-mono flex items-center justify-center h-full">
+                  <pre className="text-[#ff4444] text-[13px] leading-relaxed whitespace-pre-wrap text-center abom-crash-text-flicker">{screen.body}</pre>
+                </div>
+              )}
+            </div>
           </div>
-
-          {/* Message */}
-          <div className="absolute bottom-[15%] inset-x-0 z-30 text-center abom-jumpscare-text">
-            <span className="text-danger text-3xl font-mono font-bold tracking-[0.4em]"
-              style={{ textShadow: '0 0 20px rgba(255,68,102,0.8), 0 0 60px rgba(255,68,102,0.4)' }}>
-              {fxData}
-            </span>
-          </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 }
