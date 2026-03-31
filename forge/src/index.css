@@ -68,6 +68,13 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
   100% { transform: translateY(100vh); }
 }
 
+/* Abomination thinking bar equalizer */
+@keyframes abomThinkBar {
+  0%   { height: 3px; opacity: 0.3; }
+  50%  { height: 10px; opacity: 1; }
+  100% { height: 3px; opacity: 0.3; }
+}
+
 /* Jittery horizontal line */
 @keyframes abomJitter {
   0%   { transform: translateX(0px); opacity: 0.4; }
