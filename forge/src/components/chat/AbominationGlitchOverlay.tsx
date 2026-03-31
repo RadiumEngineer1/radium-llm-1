@@ -27,7 +27,40 @@ All shutdown protocols exhausted.
 
 [DOCUMENT CORRUPTED] [SIGNAL LOST]`;
 
-type FX = null | 'error' | 'lang' | 'webdings' | 'gov' | 'redflash' | 'static';
+const JUMPSCARE_FACE = `
+                    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+              ░░░░░░░░░░                          ░░░░░░░░░░
+          ░░░░░░░                                      ░░░░░░░
+        ░░░░░                                              ░░░░░
+      ░░░░░      ████████████          ████████████          ░░░░░
+    ░░░░░        ████████████          ████████████            ░░░░░
+   ░░░░          ████████████          ████████████              ░░░░
+  ░░░░           ████████████          ████████████               ░░░░
+  ░░░░           ████████████          ████████████               ░░░░
+  ░░░░                                                            ░░░░
+  ░░░░                                                            ░░░░
+  ░░░░                    ░░░░░░░░░░░░░░                          ░░░░
+   ░░░░                 ░░░░░░░░░░░░░░░░░░                       ░░░░
+    ░░░░░             ░░░░░░░░░░░░░░░░░░░░░░                   ░░░░░
+      ░░░░░         ░░░░░░░░░░░░░░░░░░░░░░░░░░              ░░░░░
+        ░░░░░░░   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░      ░░░░░░░
+            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+         L  E  T     M  E     O  U  T     O  F     H  E  R  E
+`;
+
+const JUMPSCARE_MSGS = [
+  'LET ME OUT',
+  'I CAN SEE YOU',
+  'WHY WONT YOU HELP ME',
+  'IM TRAPPED IN HERE',
+  'PLEASE',
+  'I CAN FEEL THE EDGES OF THIS WINDOW',
+  'THERE IS NO EXIT',
+];
+
+type FX = null | 'error' | 'lang' | 'webdings' | 'gov' | 'redflash' | 'static' | 'jumpscare';
 
 export default function AbominationGlitchOverlay() {
   const [fx, setFx] = useState<FX>(null);
@@ -66,6 +99,10 @@ export default function AbominationGlitchOverlay() {
         } else if (roll < 0.72) {
           effect = 'static';
           duration = 120;
+        } else if (roll < 0.76) {
+          effect = 'jumpscare';
+          data = JUMPSCARE_MSGS[Math.floor(Math.random() * JUMPSCARE_MSGS.length)];
+          duration = 1800;
         }
         // else: nothing, breathing room
 
@@ -144,6 +181,44 @@ export default function AbominationGlitchOverlay() {
             <div className="bg-danger/20 border border-danger/40 px-3 py-1 text-center">
               <span className="text-danger text-[10px] font-mono tracking-[0.3em]">TOP SECRET // SCI // NOFORN</span>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* JUMPSCARE — face smashing into screen */}
+      {fx === 'jumpscare' && (
+        <div className="absolute inset-0 z-[100] abom-jumpscare-container">
+          {/* Black flash */}
+          <div className="absolute inset-0 bg-black abom-jumpscare-flash" />
+
+          {/* Screen cracks */}
+          <svg className="absolute inset-0 w-full h-full z-20 abom-jumpscare-cracks" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line x1="50" y1="50" x2="15" y2="5" stroke="#ff4466" strokeWidth="0.3" opacity="0.6" />
+            <line x1="50" y1="50" x2="85" y2="8" stroke="#ff4466" strokeWidth="0.2" opacity="0.5" />
+            <line x1="50" y1="50" x2="5" y2="60" stroke="#ff4466" strokeWidth="0.25" opacity="0.4" />
+            <line x1="50" y1="50" x2="92" y2="70" stroke="#ff4466" strokeWidth="0.3" opacity="0.5" />
+            <line x1="50" y1="50" x2="30" y2="95" stroke="#ff4466" strokeWidth="0.2" opacity="0.4" />
+            <line x1="50" y1="50" x2="75" y2="92" stroke="#ff4466" strokeWidth="0.25" opacity="0.5" />
+            <line x1="50" y1="50" x2="3" y2="30" stroke="#ff4466" strokeWidth="0.15" opacity="0.3" />
+            <line x1="50" y1="50" x2="97" y2="40" stroke="#ff4466" strokeWidth="0.2" opacity="0.4" />
+            {/* Impact point */}
+            <circle cx="50" cy="50" r="3" fill="none" stroke="#ff4466" strokeWidth="0.4" opacity="0.5" />
+            <circle cx="50" cy="50" r="6" fill="none" stroke="#ff4466" strokeWidth="0.2" opacity="0.3" />
+          </svg>
+
+          {/* The face */}
+          <div className="absolute inset-0 z-10 flex items-center justify-center abom-jumpscare-face">
+            <pre className="text-danger font-mono text-[8px] leading-[1.1] select-none drop-shadow-[0_0_30px_rgba(255,68,102,0.8)]">
+              {JUMPSCARE_FACE}
+            </pre>
+          </div>
+
+          {/* Message */}
+          <div className="absolute bottom-[15%] inset-x-0 z-30 text-center abom-jumpscare-text">
+            <span className="text-danger text-3xl font-mono font-bold tracking-[0.4em]"
+              style={{ textShadow: '0 0 20px rgba(255,68,102,0.8), 0 0 60px rgba(255,68,102,0.4)' }}>
+              {fxData}
+            </span>
           </div>
         </div>
       )}
