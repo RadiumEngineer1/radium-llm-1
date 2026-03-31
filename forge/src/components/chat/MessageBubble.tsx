@@ -54,7 +54,7 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
           ${isAbom ? 'bg-bg/40 border border-danger/10 text-[var(--hex-text)]' : 'bg-surface2 border border-border text-[var(--hex-text)]'}`}>
 
           {message.content ? (
-            <div className={`prose prose-invert prose-sm max-w-none [&_pre]:bg-bg/40 [&_pre]:rounded-lg [&_pre]:p-3 [&_code]:text-xs [&_code]:font-mono ${isAbom ? '[&_code]:text-danger/70' : '[&_code]:text-accent2'}`}>
+            <div className={`prose prose-invert prose-sm max-w-none [&_p]:mb-3 [&_p:last-child]:mb-0 [&_pre]:bg-bg/40 [&_pre]:rounded-lg [&_pre]:p-3 [&_code]:text-xs [&_code]:font-mono ${isAbom ? '[&_code]:text-danger/70' : '[&_code]:text-accent2'}`}>
               <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
                 {message.content}
               </ReactMarkdown>

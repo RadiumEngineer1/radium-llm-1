@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useChatStore } from '../store/chatStore';
 import { useModelStore } from '../store/modelStore';
 import { useSettingsStore } from '../store/settingsStore';
@@ -8,27 +9,24 @@ import { useToastStore } from '../components/ui/Toast';
 import type { RagChunk } from '../types';
 
 export function useSendMessage() {
-  const addMessage = useChatStore(s => s.addMessage);
-  const updateLastAssistantMessage = useChatStore(s => s.updateLastAssistantMessage);
-  const updateLastAssistantThinking = useChatStore(s => s.updateLastAssistantThinking);
-  const setGenerating = useChatStore(s => s.setGenerating);
-  const messages = useChatStore(s => s.messages);
-  const selectedModel = useModelStore(s => s.selectedModel);
-  const getActiveEmbedModel = useModelStore(s => s.getActiveEmbedModel);
-  const params = useSettingsStore(s => s.params);
-  const systemPrompt = useSettingsStore(s => s.systemPrompt);
-  const ragEnabled = useRagStore(s => s.enabled);
-  const ragDocs = useRagStore(s => s.docs);
   const addToast = useToastStore(s => s.addToast);
 
-  const send = async (userText: string) => {
+  // useCallback with no deps — reads everything from stores imperatively
+  // so this hook never causes re-renders in the consuming component
+  const send = useCallback(async (userText: string) => {
     if (!userText.trim()) return;
+
+    const { addMessage, updateLastAssistantMessage, updateLastAssistantThinking, setGenerating } = useChatStore.getState();
+    const { selectedModel } = useModelStore.getState();
+    const { params, systemPrompt } = useSettingsStore.getState();
+    const { enabled: ragEnabled, docs: ragDocs } = useRagStore.getState();
+    const messages = useChatStore.getState().messages;
+
     if (!selectedModel) {
       addToast('No model selected. Pick a model from the sidebar.', 'error');
       return;
     }
 
-    // Add user message
     addMessage({ role: 'user', content: userText.trim() });
 
     // RAG context
@@ -36,6 +34,7 @@ export function useSendMessage() {
     let ragChunks: RagChunk[] = [];
     if (ragEnabled && ragDocs.length > 0) {
       try {
+        const getActiveEmbedModel = useModelStore.getState().getActiveEmbedModel;
         ragChunks = await searchDocs(userText, ragDocs, getActiveEmbedModel(), params.top_k);
         if (ragChunks.length > 0) {
           ragContext = '\n\n## Retrieved Context\n' +
@@ -53,7 +52,6 @@ export function useSendMessage() {
       .slice(-40)
       .map(m => ({ role: m.role, content: m.content }));
     const allMessages = [
-      // Only include system message if there's content — otherwise let the Modelfile's SYSTEM take over
       ...(systemContent.trim() ? [{ role: 'system', content: systemContent }] : []),
       ...history,
       { role: 'user', content: userText.trim() },
@@ -86,10 +84,8 @@ export function useSendMessage() {
       }
       const fullText = responseText;
 
-      // Handle empty response — but keep the message if thinking was captured
       if (!fullText.trim()) {
         if (thinkingText.trim()) {
-          // Model thought but produced no visible response — show a note
           updateLastAssistantMessage('*[The model thought but produced no visible response. Try again.]*');
         } else {
           useChatStore.setState(state => ({
@@ -100,7 +96,6 @@ export function useSendMessage() {
         return;
       }
 
-      // Attach RAG sources to the final message
       if (ragChunks.length > 0) {
         useChatStore.setState(state => {
           const msgs = [...state.messages];
@@ -126,7 +121,7 @@ export function useSendMessage() {
     } finally {
       setGenerating(false);
     }
-  };
+  }, [addToast]);
 
   return send;
 }
