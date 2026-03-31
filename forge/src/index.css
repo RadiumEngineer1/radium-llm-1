@@ -113,18 +113,18 @@
 
 [data-theme="msdos"] {
   --hex-bg:       #0000aa;
-  --hex-surface:  #000088;
+  --hex-surface:  #0000aa;
   --hex-surface2: #0000aa;
-  --hex-surface3: #0000cc;
-  --hex-border:   #4444cc;
-  --hex-accent:   #ffffff;
-  --hex-accent2:  #ffffff;
-  --hex-muted:    #8888cc;
+  --hex-surface3: #0000bb;
+  --hex-border:   #3333cc;
+  --hex-accent:   #55ffff;
+  --hex-accent2:  #55ff55;
+  --hex-muted:    #7777cc;
   --hex-danger:   #ff5555;
   --hex-success:  #55ff55;
   --hex-text:     #ffffff;
-  --glow-1: rgba(255, 255, 255, 0.02);
-  --glow-2: rgba(255, 255, 255, 0.01);
+  --glow-1: rgba(0, 0, 170, 0.02);
+  --glow-2: rgba(0, 0, 170, 0.01);
 }
 
 [data-theme="ocean"] {
