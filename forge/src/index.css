@@ -62,8 +62,17 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
   100% { background: transparent; }
 }
 
-/* Scanline overlay for Abomination empty state */
+/* Scanline overlay for Abomination */
 @keyframes scanline {
   0%   { transform: translateY(-100%); }
   100% { transform: translateY(100vh); }
+}
+
+/* Jittery horizontal line */
+@keyframes abomJitter {
+  0%   { transform: translateX(0px); opacity: 0.4; }
+  25%  { transform: translateX(12px); opacity: 0.8; }
+  50%  { transform: translateX(-8px); opacity: 0.2; }
+  75%  { transform: translateX(5px); opacity: 0.6; }
+  100% { transform: translateX(0px); opacity: 0.4; }
 }

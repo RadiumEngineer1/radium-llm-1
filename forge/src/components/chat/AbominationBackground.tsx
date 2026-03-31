@@ -111,7 +111,7 @@ export default function AbominationBackground({ hasMessages }: Props) {
   }, [glitchType]);
 
   return (
-    <div className={`absolute inset-0 flex items-center justify-center pointer-events-none select-none transition-opacity duration-1000 ${hasMessages ? 'opacity-[0.05]' : 'opacity-100'}`}>
+    <div className={`absolute inset-0 flex items-center justify-center pointer-events-none select-none transition-opacity duration-1000 ${hasMessages ? 'opacity-[0.35]' : 'opacity-100'}`}>
 
       {/* Full-panel CRT scanlines */}
       <div className="absolute inset-0 z-10"
