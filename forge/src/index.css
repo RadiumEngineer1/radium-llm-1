@@ -111,6 +111,22 @@
   --glow-2: rgba(255, 170, 0, 0.03);
 }
 
+[data-theme="msdos"] {
+  --hex-bg:       #0000aa;
+  --hex-surface:  #0000aa;
+  --hex-surface2: #0000cc;
+  --hex-surface3: #0000dd;
+  --hex-border:   #5555ff;
+  --hex-accent:   #ffff55;
+  --hex-accent2:  #55ffff;
+  --hex-muted:    #aaaaaa;
+  --hex-danger:   #ff5555;
+  --hex-success:  #55ff55;
+  --hex-text:     #ffffff;
+  --glow-1: rgba(85, 85, 255, 0.04);
+  --glow-2: rgba(255, 255, 85, 0.02);
+}
+
 [data-theme="ocean"] {
   --hex-bg:       #e8f4f8;
   --hex-surface:  #f0f8fc;
