@@ -92,3 +92,158 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
   75%  { transform: translateX(5px); opacity: 0.6; }
   100% { transform: translateX(0px); opacity: 0.4; }
 }
+
+/* === ABOMINATION PURE CSS EFFECTS === */
+
+/* Scanlines background pattern */
+.abom-scanlines {
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(255,107,43,0.02) 2px, rgba(255,107,43,0.02) 4px
+  );
+}
+
+/* Drift the ASCII art slowly */
+.abom-drift {
+  animation: abomDrift 30s ease-in-out infinite;
+}
+@keyframes abomDrift {
+  0%   { transform: translate(0px, 0px); }
+  25%  { transform: translate(25px, -15px); }
+  50%  { transform: translate(-15px, 10px); }
+  75%  { transform: translate(20px, 20px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+/* Main art glitch — shift/skew/color on a cycle */
+.abom-art-glitch {
+  animation: abomArtGlitch 8s steps(1) infinite;
+}
+@keyframes abomArtGlitch {
+  0%, 92%  { transform: none; color: rgba(255,107,43,0.4); }
+  93%      { transform: translateX(5px) skewX(2deg); color: rgba(255,68,102,0.5); }
+  94%      { transform: translateX(-3px); color: rgba(255,68,102,0.6); }
+  95%      { transform: translateX(4px) skewX(-1deg); color: rgba(255,107,43,0.1); }
+  96%      { transform: none; color: rgba(255,107,43,0.4); }
+  97%      { transform: translateX(2px); color: rgba(255,68,102,0.4); }
+  98%, 100% { transform: none; color: rgba(255,107,43,0.4); }
+}
+
+/* Chromatic aberration layers — flash visible during glitch frames */
+.abom-chromatic-r {
+  animation: abomChromaticR 8s steps(1) infinite;
+}
+@keyframes abomChromaticR {
+  0%, 92%  { opacity: 0; }
+  93%      { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+.abom-chromatic-b {
+  animation: abomChromaticB 8s steps(1) infinite;
+}
+@keyframes abomChromaticB {
+  0%, 92%  { opacity: 0; }
+  93%      { opacity: 0.8; }
+  96%, 100% { opacity: 0; }
+}
+
+/* Hard scare text — visible for tiny window on a long cycle */
+.abom-scare {
+  animation: abomScare 25s steps(1) infinite;
+}
+@keyframes abomScare {
+  0%, 95%   { opacity: 0; }
+  95.5%     { opacity: 0.6; background: rgba(255,68,102,0.1); }
+  96.5%     { opacity: 0; }
+  97%       { opacity: 0.4; background: rgba(255,68,102,0.05); }
+  97.5%, 100% { opacity: 0; }
+}
+
+/* Horizontal glitch bars — brief flash visibility */
+@keyframes abomBarFlash {
+  0%, 96%   { opacity: 0; }
+  97%       { opacity: 1; }
+  98%, 100% { opacity: 0; }
+}
+
+/* Red flash overlay */
+.abom-redflash {
+  animation: abomRedFlash 12s steps(1) infinite;
+}
+@keyframes abomRedFlash {
+  0%, 94%   { opacity: 0; }
+  95%       { opacity: 1; }
+  95.5%, 100% { opacity: 0; }
+}
+
+/* Inversion flash */
+.abom-invert {
+  animation: abomInvert 18s steps(1) infinite;
+}
+@keyframes abomInvert {
+  0%, 96%   { opacity: 0; }
+  96.5%     { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+
+/* Static noise burst */
+.abom-static {
+  animation: abomStatic 10s steps(1) infinite;
+}
+@keyframes abomStatic {
+  0%, 93%   { opacity: 0; }
+  94%       { opacity: 0.08; }
+  95%, 100% { opacity: 0; }
+}
+
+/* Language fragment flash — appears briefly on long cycle */
+.abom-lang-flash {
+  animation: abomLangFlash 30s steps(1) infinite;
+}
+@keyframes abomLangFlash {
+  0%, 95%   { opacity: 0; visibility: hidden; }
+  95.5%     { opacity: 1; visibility: visible; }
+  98%, 100% { opacity: 0; visibility: hidden; }
+}
+
+/* Webdings symbol burst */
+.abom-webdings-flash {
+  animation: abomWebdingsFlash 20s steps(1) infinite;
+}
+@keyframes abomWebdingsFlash {
+  0%, 97%   { opacity: 0; }
+  97.5%     { opacity: 1; }
+  98.5%, 100% { opacity: 0; }
+}
+
+/* Error log bar flash */
+.abom-error-flash {
+  animation: abomErrorFlash 25s steps(1) infinite;
+}
+@keyframes abomErrorFlash {
+  0%, 93%   { opacity: 0; visibility: hidden; }
+  94%       { opacity: 1; visibility: visible; }
+  98%, 100% { opacity: 0; visibility: hidden; }
+}
+
+/* Government document takeover — very rare, long cycle */
+.abom-gov-flash {
+  animation: abomGovFlash 55s steps(1) infinite;
+}
+@keyframes abomGovFlash {
+  0%, 95%   { opacity: 0; visibility: hidden; }
+  95.5%     { opacity: 1; visibility: visible; }
+  99%, 100% { opacity: 0; visibility: hidden; }
+}
+
+/* Wingdings takeover — entire app font changes briefly on a very long cycle */
+.abom-wingdings-cycle {
+  animation: abomWingdings 40s steps(1) infinite;
+}
+@keyframes abomWingdings {
+  0%, 97%   { font-family: 'DM Sans', sans-serif; filter: none; }
+  97.3%     { font-family: Wingdings, Webdings, Symbol, fantasy; filter: hue-rotate(180deg) brightness(1.3); }
+  97.8%     { font-family: 'DM Sans', sans-serif; filter: none; }
+  98.1%     { font-family: Wingdings, Webdings, Symbol, fantasy; filter: hue-rotate(90deg); }
+  98.4%, 100% { font-family: 'DM Sans', sans-serif; filter: none; }
+}

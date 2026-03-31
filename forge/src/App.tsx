@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useModelStore } from './store/modelStore';
 import { useChatStore } from './store/chatStore';
 import { checkHealth } from './lib/ollama';
@@ -19,7 +19,6 @@ export default function App() {
   const isGenerating = useChatStore(s => s.isGenerating);
   const selectedModel = useModelStore(s => s.selectedModel);
   const isAbom = selectedModel.startsWith('abomination');
-  const [webdings, setWebdings] = useState(false);
 
   useEffect(() => {
     loadModels();
@@ -44,26 +43,8 @@ export default function App() {
     return () => clearInterval(interval);
   }, [isGenerating, loadModels]);
 
-  // Rare webdings takeover — all text on screen becomes symbols
-  useEffect(() => {
-    if (!isAbom) return;
-    const interval = setInterval(() => {
-      if (Math.random() < 0.3) {
-        setWebdings(true);
-        setTimeout(() => setWebdings(false), 150 + Math.random() * 250);
-      }
-    }, 12000 + Math.random() * 20000);
-    return () => clearInterval(interval);
-  }, [isAbom]);
-
   return (
-    <div
-      className="flex h-screen w-screen bg-bg text-gray-200 transition-all duration-75"
-      style={webdings ? {
-        fontFamily: 'Wingdings, Webdings, Symbol, fantasy',
-        filter: 'hue-rotate(180deg) brightness(1.3)',
-      } : undefined}
-    >
+    <div className={`flex h-screen w-screen bg-bg text-gray-200 ${isAbom ? 'abom-wingdings-cycle' : ''}`}>
       <Sidebar>
         <ModelSelector />
         <EmbedModelSelector />
