@@ -73,6 +73,15 @@ export function useSendMessage() {
         updateLastAssistantMessage(fullText);
       }
 
+      // Remove empty assistant message if nothing was generated
+      if (!fullText.trim()) {
+        useChatStore.setState(state => ({
+          messages: state.messages.filter(m => m.id !== assistantMsg.id),
+        }));
+        addToast('Model returned an empty response. Try again or switch models.', 'error');
+        return;
+      }
+
       // Attach RAG sources to the final message
       if (ragChunks.length > 0) {
         useChatStore.setState(state => {

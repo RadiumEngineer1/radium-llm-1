@@ -89,10 +89,10 @@ export async function* streamChat(params: StreamChatParams): AsyncGenerator<stri
       if (!line.trim()) continue;
       try {
         const data = JSON.parse(line);
-        if (data.done) return;
-        if (data.message?.content) {
+        if (data.message?.content !== undefined && data.message.content !== '') {
           yield data.message.content;
         }
+        if (data.done) return;
       } catch {
         // skip malformed lines
       }
