@@ -1,6 +1,7 @@
 import { useModelStore } from '../../store/modelStore';
 import { useChatStore } from '../../store/chatStore';
 import { useRagStore } from '../../store/ragStore';
+import DnaHelix from './DnaHelix';
 
 export default function SystemStats() {
   const selectedModel = useModelStore(s => s.selectedModel);
@@ -117,6 +118,9 @@ export default function SystemStats() {
           <Row label="UPTIME" value="∞" accent="text-danger/50" />
         </div>
       )}
+
+      {/* DNA Helix */}
+      <DnaHelix />
 
       {/* Heartbeat — always at the very bottom, fixed height */}
       <div className="pt-2 border-t border-border">

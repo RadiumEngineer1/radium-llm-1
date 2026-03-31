@@ -10,6 +10,8 @@ import GenerationParams from './components/sidebar/GenerationParams';
 import SystemPrompt from './components/sidebar/SystemPrompt';
 import RagSection from './components/sidebar/RagSection';
 import SystemStats from './components/sidebar/SystemStats';
+import ThemeSelector from './components/sidebar/ThemeSelector';
+import { useThemeStore } from './store/themeStore';
 import ChatHeader from './components/chat/ChatHeader';
 import MessageList from './components/chat/MessageList';
 import InputArea from './components/chat/InputArea';
@@ -20,6 +22,12 @@ export default function App() {
   const isGenerating = useChatStore(s => s.isGenerating);
   const selectedModel = useModelStore(s => s.selectedModel);
   const isAbom = selectedModel.startsWith('abomination');
+  const theme = useThemeStore(s => s.theme);
+
+  // Apply theme on mount
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   useEffect(() => {
     loadModels();
@@ -47,6 +55,7 @@ export default function App() {
   return (
     <div className={`flex h-screen w-screen bg-bg text-gray-200 ${isAbom ? 'abom-wingdings-cycle' : ''}`}>
       <Sidebar>
+        <ThemeSelector />
         <ModelSelector />
         <EmbedModelSelector />
         <div className="border-t border-border pt-3">

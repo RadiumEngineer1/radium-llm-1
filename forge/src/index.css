@@ -2,10 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========== THEME DEFINITIONS ========== */
+:root, [data-theme="forge"] {
+  --color-bg:       #07070c;
+  --color-surface:  #0e0e18;
+  --color-surface2: #14141f;
+  --color-surface3: #1a1a28;
+  --color-border:   #1e1e30;
+  --color-accent:   #ff6b2b;
+  --color-accent2:  #ffd60a;
+  --color-muted:    #4e4e66;
+  --color-danger:   #ff4466;
+  --color-success:  #00e5a0;
+  --color-text:     #dddde8;
+  --glow-1: rgba(255, 107, 43, 0.045);
+  --glow-2: rgba(255, 214, 10, 0.02);
+}
+
+[data-theme="cyberpunk"] {
+  --color-bg:       #0a0012;
+  --color-surface:  #12001f;
+  --color-surface2: #1a0830;
+  --color-surface3: #22103a;
+  --color-border:   #2e1850;
+  --color-accent:   #00f0ff;
+  --color-accent2:  #ff00aa;
+  --color-muted:    #5a4080;
+  --color-danger:   #ff2060;
+  --color-success:  #00ff88;
+  --color-text:     #e0d0ff;
+  --glow-1: rgba(0, 240, 255, 0.05);
+  --glow-2: rgba(255, 0, 170, 0.03);
+}
+
+[data-theme="military"] {
+  --color-bg:       #0a0d08;
+  --color-surface:  #131a0e;
+  --color-surface2: #1a2214;
+  --color-surface3: #222b1c;
+  --color-border:   #2e3822;
+  --color-accent:   #d4a520;
+  --color-accent2:  #8fbc4a;
+  --color-muted:    #556b3a;
+  --color-danger:   #cc3333;
+  --color-success:  #4caf50;
+  --color-text:     #c8d0b0;
+  --glow-1: rgba(212, 165, 32, 0.04);
+  --glow-2: rgba(143, 188, 74, 0.02);
+}
+
+[data-theme="terminal"] {
+  --color-bg:       #000000;
+  --color-surface:  #0a0a0a;
+  --color-surface2: #111111;
+  --color-surface3: #1a1a1a;
+  --color-border:   #222222;
+  --color-accent:   #33ff33;
+  --color-accent2:  #ffaa00;
+  --color-muted:    #444444;
+  --color-danger:   #ff3333;
+  --color-success:  #33ff33;
+  --color-text:     #33ff33;
+  --glow-1: rgba(51, 255, 51, 0.04);
+  --glow-2: rgba(255, 170, 0, 0.02);
+}
+
+[data-theme="ocean"] {
+  --color-bg:       #020a14;
+  --color-surface:  #051420;
+  --color-surface2: #081e2e;
+  --color-surface3: #0c283a;
+  --color-border:   #103248;
+  --color-accent:   #00d4ff;
+  --color-accent2:  #00ffa0;
+  --color-muted:    #2a5a70;
+  --color-danger:   #ff5577;
+  --color-success:  #00e5a0;
+  --color-text:     #b0d8e8;
+  --glow-1: rgba(0, 212, 255, 0.04);
+  --glow-2: rgba(0, 255, 160, 0.02);
+}
+
 @layer base {
   body {
-    background-color: #07070c;
-    color: #dddde8;
+    background-color: var(--color-bg);
+    color: var(--color-text);
     font-family: 'DM Sans', sans-serif;
   }
 
@@ -16,8 +97,8 @@
     z-index: 0;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 900px 700px at 10% 35%, rgba(255, 107, 43, 0.045) 0%, transparent 65%),
-      radial-gradient(ellipse 600px 500px at 90% 75%, rgba(255, 214, 10, 0.02) 0%, transparent 60%);
+      radial-gradient(ellipse 900px 700px at 10% 35%, var(--glow-1) 0%, transparent 65%),
+      radial-gradient(ellipse 600px 500px at 90% 75%, var(--glow-2) 0%, transparent 60%);
     animation: bgBreath 14s ease-in-out infinite alternate;
   }
 
@@ -28,18 +109,18 @@
 
   ::-webkit-scrollbar { width: 3px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #1e1e30; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
 
   .hljs { background: rgba(0,0,0,0.4) !important; }
 }
 
-input[type="range"] { -webkit-appearance: none; height: 2px; background: #1e1e30; border-radius: 1px; }
+input[type="range"] { -webkit-appearance: none; height: 2px; background: var(--color-border); border-radius: 1px; }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 13px; height: 13px;
-  background: #ff6b2b;
+  background: var(--color-accent);
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(255, 107, 43, 0.5);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-accent) 50%, transparent);
   cursor: pointer;
   transition: transform 0.1s;
 }
@@ -113,6 +194,12 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
   50%  { transform: translate(-15px, 10px); }
   75%  { transform: translate(20px, 20px); }
   100% { transform: translate(0px, 0px); }
+}
+
+/* DNA helix scroll animation */
+@keyframes dnaScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* Stats bar equalizer animation */
