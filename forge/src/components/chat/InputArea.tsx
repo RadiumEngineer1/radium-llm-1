@@ -40,7 +40,7 @@ export default function InputArea() {
 
   return (
     <div className="px-5 py-3 border-t border-border bg-surface/80 backdrop-blur-sm">
-      <div className="flex items-end gap-2 max-w-4xl mx-auto">
+      <div className="flex items-end gap-2">
         <div className="flex-1 relative">
           <textarea
             ref={textareaRef}

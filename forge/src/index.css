@@ -46,6 +46,10 @@
 /* Prose overrides for themed text */
 .prose.prose-invert { --tw-prose-body: var(--hex-text); --tw-prose-headings: var(--hex-text); }
 
+/* MS-DOS: user bubbles need dark text on cyan accent */
+[data-theme="msdos"] .bg-accent { color: #000088 !important; }
+[data-theme="msdos"] .bg-accent .whitespace-pre-wrap { color: #000088 !important; }
+
 /* ========== THEME DEFINITIONS (plain hex — works in all browsers) ========== */
 :root, [data-theme="forge"] {
   --hex-bg:       #07070c;
