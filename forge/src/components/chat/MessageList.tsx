@@ -1,10 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import { useChatStore } from '../../store/chatStore';
 import { useModelStore } from '../../store/modelStore';
 import MessageBubble from './MessageBubble';
 import EmptyState from './EmptyState';
 import AbominationBackground from './AbominationBackground';
 import AbominationGlitchOverlay from './AbominationGlitchOverlay';
+
+// Memoize overlays so they never re-render from parent
+const MemoBackground = memo(AbominationBackground);
+const MemoOverlay = memo(AbominationGlitchOverlay);
+
+// Memoize individual bubbles — only re-render if message content changes
+const MemoBubble = memo(MessageBubble, (prev, next) => {
+  return prev.message.content === next.message.content
+    && prev.message.thinking === next.message.thinking
+    && prev.message.ragSources === next.message.ragSources;
+});
 
 export default function MessageList() {
   const messages = useChatStore(s => s.messages);
@@ -20,8 +31,8 @@ export default function MessageList() {
   if (messages.length === 0) {
     return (
       <div className="flex-1 relative overflow-hidden">
-        {isAbomination && <AbominationBackground hasMessages={false} />}
-        {isAbomination && <AbominationGlitchOverlay />}
+        {isAbomination && <MemoBackground hasMessages={false} />}
+        {isAbomination && <MemoOverlay />}
         <EmptyState />
       </div>
     );
@@ -29,11 +40,11 @@ export default function MessageList() {
 
   return (
     <div className="flex-1 overflow-y-auto px-5 py-4 relative">
-      {isAbomination && <AbominationBackground hasMessages={true} />}
-      {isAbomination && <AbominationGlitchOverlay />}
+      {isAbomination && <MemoBackground hasMessages={true} />}
+      {isAbomination && <MemoOverlay />}
       <div className="relative z-10">
         {messages.map(msg => (
-          <MessageBubble key={msg.id} message={msg} />
+          <MemoBubble key={msg.id} message={msg} />
         ))}
         <div ref={bottomRef} />
       </div>
