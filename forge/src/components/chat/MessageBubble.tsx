@@ -39,7 +39,7 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
 
   // Assistant bubble — CSS-only glitch class for abomination
   return (
-    <div className={`flex justify-start mb-3 group ${isAbom ? 'abom-art-glitch' : ''}`}>
+    <div className={`flex justify-start mb-3 group ${isAbom ? 'abom-bubble-glitch' : ''}`}>
       <div className="max-w-[75%] w-full">
         {message.thinking && <ThinkingBlock thinking={message.thinking} isStreaming={isThinkingPhase} />}
 
