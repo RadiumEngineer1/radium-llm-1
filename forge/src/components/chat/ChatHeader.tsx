@@ -6,6 +6,7 @@ import { Trash2, Download } from 'lucide-react';
 export default function ChatHeader() {
   const selectedModel = useModelStore(s => s.selectedModel);
   const { messages, clearChat } = useChatStore();
+  const isAbom = selectedModel.startsWith('abomination');
 
   const exportChat = () => {
     const md = messages
@@ -22,8 +23,19 @@ export default function ChatHeader() {
 
   return (
     <div className="flex items-center justify-between px-5 py-3 border-b border-border bg-surface/80 backdrop-blur-sm">
-      <div className="flex items-center gap-2">
-        <span className="text-sm font-mono text-accent">{selectedModel || 'No model'}</span>
+      <div className="flex items-center gap-3">
+        {isAbom && (
+          <span className="text-[9px] font-mono text-danger/40 tracking-wider">CLASSIFIED //</span>
+        )}
+        <span
+          className="text-accent tracking-wider"
+          style={{ fontFamily: "'Black Ops One', cursive", fontSize: isAbom ? '18px' : '14px' }}
+        >
+          {selectedModel || 'No model'}
+        </span>
+        {isAbom && (
+          <span className="text-[9px] font-mono text-danger/40 tracking-wider">// ACTIVE</span>
+        )}
       </div>
       <div className="flex items-center gap-1">
         <IconButton onClick={exportChat} tooltip="Export chat" disabled={messages.length === 0}>

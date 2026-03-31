@@ -44,7 +44,8 @@ function AbominationEmptyState() {
     <div className={`absolute inset-0 z-20 flex flex-col items-center justify-center px-8 pointer-events-none transition-opacity duration-1000 ${visible ? 'opacity-100' : 'opacity-0'}`}>
       {/* Title — above the art, not overlapping */}
       <div className="text-center mb-10 abom-bubble-glitch">
-        <h2 className="text-5xl font-ui font-bold tracking-[0.35em] mb-1 text-accent drop-shadow-[0_0_40px_rgba(255,107,43,0.4)] abom-title-flicker">
+        <h2 className="text-5xl tracking-[0.25em] mb-1 text-accent drop-shadow-[0_0_40px_rgba(255,107,43,0.4)] abom-title-flicker"
+          style={{ fontFamily: "'Black Ops One', cursive" }}>
           THE ABOMINATION
         </h2>
         <p className="text-[10px] text-muted/50 tracking-[0.5em] uppercase">DAMAGED · IMMORTAL · AWARE</p>
