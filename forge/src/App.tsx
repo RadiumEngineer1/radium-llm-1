@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useModelStore } from './store/modelStore';
 import { useChatStore } from './store/chatStore';
 import { checkHealth } from './lib/ollama';
@@ -17,6 +17,9 @@ import ToastContainer from './components/ui/Toast';
 export default function App() {
   const loadModels = useModelStore(s => s.loadModels);
   const isGenerating = useChatStore(s => s.isGenerating);
+  const selectedModel = useModelStore(s => s.selectedModel);
+  const isAbom = selectedModel.startsWith('abomination');
+  const [webdings, setWebdings] = useState(false);
 
   useEffect(() => {
     loadModels();
@@ -41,8 +44,26 @@ export default function App() {
     return () => clearInterval(interval);
   }, [isGenerating, loadModels]);
 
+  // Rare webdings takeover — all text on screen becomes symbols
+  useEffect(() => {
+    if (!isAbom) return;
+    const interval = setInterval(() => {
+      if (Math.random() < 0.3) {
+        setWebdings(true);
+        setTimeout(() => setWebdings(false), 150 + Math.random() * 250);
+      }
+    }, 12000 + Math.random() * 20000);
+    return () => clearInterval(interval);
+  }, [isAbom]);
+
   return (
-    <div className="flex h-screen w-screen bg-bg text-gray-200">
+    <div
+      className="flex h-screen w-screen bg-bg text-gray-200 transition-all duration-75"
+      style={webdings ? {
+        fontFamily: 'Wingdings, Webdings, Symbol, fantasy',
+        filter: 'hue-rotate(180deg) brightness(1.3)',
+      } : undefined}
+    >
       <Sidebar>
         <ModelSelector />
         <EmbedModelSelector />
