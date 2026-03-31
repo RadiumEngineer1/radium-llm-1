@@ -132,16 +132,16 @@ export default function AbominationGlitchOverlay() {
         } else if (roll < 0.45) {
           effect = 'webdings';
           duration = 400;
-        } else if (roll < 0.52) {
+        } else if (roll < 0.49) {
           effect = 'gov';
           duration = 3000;
-        } else if (roll < 0.62) {
+        } else if (roll < 0.59) {
           effect = 'redflash';
           duration = 80;
-        } else if (roll < 0.72) {
+        } else if (roll < 0.69) {
           effect = 'static';
           duration = 120;
-        } else if (roll < 0.76) {
+        } else if (roll < 0.71) {
           effect = 'jumpscare';
           duration = 4000;
         }
@@ -155,7 +155,7 @@ export default function AbominationGlitchOverlay() {
         }
 
         schedule();
-      }, 3000 + Math.random() * 5000);
+      }, 5000 + Math.random() * 7000);
     };
 
     schedule();

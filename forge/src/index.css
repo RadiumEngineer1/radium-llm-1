@@ -121,6 +121,22 @@
   --glow-2: rgba(255, 170, 0, 0.03);
 }
 
+[data-theme="terminal-inverted"] {
+  --hex-bg:       #0d000d;
+  --hex-surface:  #120812;
+  --hex-surface2: #1a0e1a;
+  --hex-surface3: #221422;
+  --hex-border:   #2a1a2a;
+  --hex-accent:   #ff33ff;
+  --hex-accent2:  #00aaff;
+  --hex-muted:    #663366;
+  --hex-danger:   #33ffff;
+  --hex-success:  #ff33ff;
+  --hex-text:     #ff33ff;
+  --glow-1: rgba(255, 51, 255, 0.06);
+  --glow-2: rgba(0, 170, 255, 0.03);
+}
+
 [data-theme="msdos"] {
   --hex-bg:       #0000aa;
   --hex-surface:  #0000aa;

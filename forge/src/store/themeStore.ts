@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export type ThemeId = 'forge' | 'cyberpunk' | 'military' | 'terminal' | 'msdos' | 'ocean';
+export type ThemeId = 'forge' | 'cyberpunk' | 'military' | 'terminal' | 'terminal-inverted' | 'msdos' | 'ocean';
 
 export interface ThemeMeta {
   id: ThemeId;
@@ -14,6 +14,7 @@ export const THEMES: ThemeMeta[] = [
   { id: 'cyberpunk', name: 'Cyberpunk', swatch: '#00f0ff' },
   { id: 'military',  name: 'Military',  swatch: '#44dd44' },
   { id: 'terminal',  name: 'Terminal',  swatch: '#33ff33' },
+  { id: 'terminal-inverted', name: 'Terminal Inverted', swatch: '#ff33ff' },
   { id: 'msdos',     name: 'MS-DOS',    swatch: '#0000aa' },
   { id: 'ocean',     name: 'Ocean',     swatch: '#e8f4f8' },
 ];
