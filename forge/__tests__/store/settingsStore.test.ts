@@ -11,7 +11,7 @@ describe('settingsStore', () => {
         top_k: 4,
         repeat_penalty: 1.1,
       },
-      systemPrompt: 'You are a helpful, direct, and knowledgeable assistant. Answer clearly and concisely. When using retrieved context, cite the source.',
+      systemPrompt: '',
     })
   })
 

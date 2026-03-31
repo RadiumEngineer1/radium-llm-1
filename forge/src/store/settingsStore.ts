@@ -10,7 +10,7 @@ const defaultParams: GenerationParams = {
   repeat_penalty: 1.1,
 }
 
-const defaultSystemPrompt = 'You are a helpful, direct, and knowledgeable assistant. Answer clearly and concisely. When using retrieved context, cite the source.'
+const defaultSystemPrompt = ''
 
 interface SettingsStore {
   params: GenerationParams;
@@ -31,7 +31,7 @@ export const useSettingsStore = create<SettingsStore>()(
       setSystemPrompt: (v) => set({ systemPrompt: v }),
     }),
     {
-      name: 'forge-settings',
+      name: 'forge-settings-v2',
     }
   )
 )
